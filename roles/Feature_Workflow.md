@@ -4,6 +4,8 @@
 
 이 문서는 QA 이후 생성되는 후속 feature가 개발 TODO로 바로 떨어지지 않도록, 기획/퍼블리싱/개발의 순차 충족 관계를 정의한다.
 
+사용자가 배포 화면이나 문서를 보고 수정사항을 요청하는 경우도 이 workflow를 따른다. AI는 사용자 요청을 받으면 즉시 구현하지 않고, 먼저 역할 영향 분류와 최신 numbered cycle feature 문서 생성을 수행한다.
+
 최종 구현 feature는 다음 조건을 모두 만족해야 한다.
 
 ```text
@@ -57,6 +59,35 @@ roles/development/feature/{cycle}/
 | 완전 통과 | QA 결과 문서에 통과로 기록하고, 필요 시 완료 이력만 impact-analysis에 기록 |
 
 최신 cycle feature는 이전 cycle 문서를 대체하지 않는다. 이전 문서는 히스토리로 남고, 최신 cycle feature는 현재 작업자의 진입점이 된다.
+
+## 사용자 수정 요청 Intake 규칙
+
+사용자 수정 요청은 QA 실패 항목과 동일하게 관리한다. 요청이 들어오면 AI는 다음 절차를 따른다.
+
+1. 사용자 요청을 한 문장으로 요약한다.
+2. 요청을 planning / publishing / development / qa 영향으로 분류한다.
+3. 최신 QA cycle의 다음 numbered folder를 확인한다.
+4. 필요한 경우 다음 폴더를 생성한다.
+
+```text
+roles/planning/feature/{cycle}/
+roles/publishing/feature/{cycle}/
+roles/development/feature/{cycle}/
+```
+
+5. 각 역할에 필요한 feature 문서를 다음 순번으로 생성한다.
+6. QA 재검증이 필요한 경우 `roles/qa/feature/` 체크표를 생성하거나 갱신한다.
+7. impact-analysis가 필요한 변경이면 `impact-analysis/`에 변경 영향 문서를 생성한다.
+8. 문서 게이트가 충족된 뒤에 구현한다.
+
+| 요청 예시 | Planning | Publishing | Development | QA |
+| --- | --- | --- | --- | --- |
+| 메뉴 제거 | 메뉴 구조/사용자 흐름 영향 판단 | 레이아웃/내비게이션 표현 기준 | 컴포넌트 제거/라우팅 영향 | 화면 회귀 검증 |
+| max-width 변경 | 화면 정책 영향 판단 | desktop/mobile layout 기준 | CSS 구현 | 반응형 검증 |
+| 버튼 동작 변경 | CTA 흐름/완료 기준 | 버튼 상태/disabled/focus 기준 | 이벤트/state/API 구현 | 동작 검증 |
+| API 응답 변경 | 사용자 노출 정책 영향 판단 | loading/error 표현 영향 | schema/service/test 구현 | API 계약 검증 |
+
+수정 요청이 특정 역할 하나에만 해당하더라도 나머지 역할의 영향 없음 판단을 문서에 기록한다. 이 기록이 있어야 후속 담당자가 왜 문서가 생성되지 않았는지 추적할 수 있다.
 
 ## Development Ready 조건
 

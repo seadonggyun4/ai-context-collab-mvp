@@ -19,6 +19,7 @@ QA는 다음 질문에 답해야 한다.
 - Publishing 문서의 Astryx Design System, JADX_STATS 토큰, 상태 표시 기준이 지켜졌는가?
 - Development 문서의 API 계약, 타입, fixture 정책, 배포 제약이 지켜졌는가?
 - 변경이 발생했을 때 영향 분석 문서와 테스트 범위가 함께 갱신되었는가?
+- 사용자 수정 요청이 역할별 feature 문서와 QA 체크표를 거친 뒤 구현되었는가?
 
 ## QA 범위
 
@@ -58,6 +59,7 @@ QA는 다음 질문에 답해야 한다.
 | 모니터링 기준 설정 | `feature/06_monitoring_rules_qa.md` |
 | 데이터 조회 연계 | `feature/07_data_lookup_integration_qa.md` |
 | 시각화 연계 | `feature/08_visualization_integration_qa.md` |
+| 수정 요청 추적성 | `feature/10_change_request_traceability_qa.md` |
 
 ## 완료 기준
 
@@ -84,3 +86,16 @@ QA는 다음 질문에 답해야 한다.
 - QA 재검증 항목은 `feature/`에 생성한다.
 - 후속 feature 문서는 원인, 영향 범위, 참조 QA, 구현 TASK, 완료 기준을 포함한다.
 - 후속 구현이 진행되면 기존 문서를 갱신하고, 재검증 결과를 `qa-results/`에 추가한다.
+
+## 사용자 수정 요청 QA 정책
+
+사용자 수정 요청은 QA 실패 항목과 동일한 추적 대상으로 본다. QA는 수정 결과뿐 아니라 수정 요청이 문서 엔진을 제대로 통과했는지도 검증한다.
+
+| 체크 항목 | 기준 |
+| --- | --- |
+| 요청 요약 | 사용자 요청이 한 문장으로 남아 있는가 |
+| 역할 분류 | planning / publishing / development / qa 영향 여부가 기록되어 있는가 |
+| Feature 생성 | 최신 numbered cycle에 필요한 역할별 feature 문서가 생성되어 있는가 |
+| 구현 연결 | development 문서가 planning/publishing 조건을 참조하는가 |
+| 검증 연결 | QA 체크표 또는 QA result에 재검증 기준이 있는가 |
+| 이력 연결 | impact-analysis 또는 변경 이력에 영향 범위가 남아 있는가 |

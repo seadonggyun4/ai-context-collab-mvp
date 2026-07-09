@@ -98,7 +98,7 @@
 
 네 번째 QA에서 QA3-001이 통과되었고, 신규 실패/부분 통과/carry-forward 항목이 발견되지 않았다.
 
-따라서 이번 QA cycle에서는 다음 디렉토리를 생성하지 않는다.
+따라서 네 번째 QA 실행 시점에는 QA 실패 후속 feature로 다음 디렉토리를 생성하지 않았다.
 
 - `roles/planning/feature/04_after_fourth_qa/`
 - `roles/publishing/feature/04_after_fourth_qa/`
@@ -110,6 +110,18 @@
 - 부분 통과 항목 발생
 - 구현 대기 항목 발생
 - 다음 cycle로 이월해야 하는 carry-forward 항목 발생
+
+## 네 번째 QA 이후 사용자 수정 요청 기반 문서 생성
+
+네 번째 QA 완료 후 사용자가 “수정 요청이 들어오면 바로 코드 수정으로 들어가지 말고, planning / publishing / development / QA 영향 분류와 다음 numbered cycle feature 문서 생성을 먼저 수행해야 한다”고 요청했다.
+
+이 요청은 QA 실패 후속이 아니라 문서 엔진 정책 보강에 해당하므로, `04_after_fourth_qa/` cycle에 다음 feature를 생성했다.
+
+- `roles/planning/feature/04_after_fourth_qa/14_change_request_triage_policy.md`
+- `roles/publishing/feature/04_after_fourth_qa/07_change_request_visual_policy.md`
+- `roles/development/feature/04_after_fourth_qa/18_change_request_implementation_gate.md`
+- `roles/qa/feature/10_change_request_traceability_qa.md`
+- `impact-analysis/2026-07-09_change-request-documentation-engine.md`
 
 ## 결론
 
