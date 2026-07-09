@@ -108,16 +108,6 @@ export function ApcDataManagementShell() {
 
   return (
     <main className="apc-shell">
-      <aside className="apc-sidebar" aria-label="JADX 메뉴">
-        <div className="apc-sidebar__brand">JADX</div>
-        <nav>
-          <a>대시보드</a>
-          <a className="is-active">APC 데이터 관리</a>
-          <a>리포트</a>
-          <a>설정</a>
-        </nav>
-      </aside>
-
       <section className="apc-workspace">
         <header className="apc-header">
           <div>
