@@ -1,0 +1,15 @@
+{
+  "name": "apc-monitoring-mvp",
+  "private": true,
+  "version": "0.1.0",
+  "description": "JADX APC monitoring MVP app generated from context documents.",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview",
+    "typecheck": "npm --prefix frontend run typecheck"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
