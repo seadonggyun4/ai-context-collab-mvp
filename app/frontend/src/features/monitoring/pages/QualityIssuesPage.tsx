@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AppliedFilterChips } from "@features/monitoring/components/AppliedFilterChips";
 import { ResourceState } from "@features/monitoring/components/ResourceState";
 import { useActionEntryFocus } from "@features/monitoring/hooks/useActionEntryFocus";
 import { useAsyncResource } from "@features/monitoring/hooks/useAsyncResource";
@@ -246,7 +245,6 @@ export function QualityIssuesPage({
   return (
     <div className="ops-grid">
       <ShellPanel title="데이터 품질 이슈">
-        <AppliedFilterChips context={drilldownContext ?? null} />
         <div
           aria-label="이슈 유형 필터"
           className="issue-type-filter"

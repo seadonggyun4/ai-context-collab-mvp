@@ -113,17 +113,22 @@ export function ShellSelect({
   label: string;
   onChange?: (value: string) => void;
   value: string;
-  options: string[];
+  options: Array<string | { label: string; value: string }>;
 }) {
   return (
     <label className="shell-field" data-astryx-component="Selector">
       <span>{label}</span>
       <select onChange={(event) => onChange?.(event.target.value)} value={value}>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
+        {options.map((option) => {
+          const optionValue = typeof option === "string" ? option : option.value;
+          const optionLabel = typeof option === "string" ? option : option.label;
+
+          return (
+            <option key={optionValue} value={optionValue}>
+              {optionLabel}
+            </option>
+          );
+        })}
       </select>
     </label>
   );

@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { AppliedFilterChips } from "@features/monitoring/components/AppliedFilterChips";
 import { ResourceState } from "@features/monitoring/components/ResourceState";
 import { useAsyncResource } from "@features/monitoring/hooks/useAsyncResource";
 import type { MatrixDrilldownContext } from "@features/monitoring/types/shell";
@@ -232,7 +231,6 @@ export function MonitoringRulesPage({ drilldownContext }: MonitoringRulesPagePro
   return (
     <div className="ops-grid">
       <ShellPanel title="모니터링 기준 목록">
-        <AppliedFilterChips context={drilldownContext ?? null} />
         <div className="table-wrap" data-astryx-component="Table">
           <table>
             <thead>

@@ -5,7 +5,6 @@ import {
   ShellSelect,
   ShellTabs
 } from "@shared/components/AstryxPrimitives";
-import { AppliedFilterChips } from "@features/monitoring/components/AppliedFilterChips";
 import { DataLookupIntegrationPage } from "@features/data-lookup-integration/DataLookupIntegrationPage";
 import { IngestionStatusPage } from "@features/monitoring/pages/IngestionStatusPage";
 import { MonitoringHomePage } from "@features/monitoring/pages/MonitoringHomePage";
@@ -37,33 +36,6 @@ const tabs: Array<{ value: ApcManagementTab; label: string; count?: number }> = 
   { value: "rules", label: "모니터링 기준 설정" },
   { value: "lookup", label: "데이터 조회" },
   { value: "visualization", label: "시각화" }
-];
-
-const scenarioSteps: Array<{
-  tab: ApcManagementTab;
-  label: string;
-  description: string;
-}> = [
-  {
-    tab: "monitoring",
-    label: "1. 상태 확인",
-    description: "APC matrix와 최근 이슈에서 오늘 데이터 신뢰도를 판단"
-  },
-  {
-    tab: "issues",
-    label: "2. 원인 확인",
-    description: "품질 이슈 상세, sample row, 권장 조치 확인"
-  },
-  {
-    tab: "lookup",
-    label: "3. 조회/다운로드",
-    description: "기존 데이터 조회 흐름에 품질 warning과 Excel confirm 연계"
-  },
-  {
-    tab: "visualization",
-    label: "4. 시각화 해석",
-    description: "차트 해석 전 데이터 신뢰도 warning 확인"
-  }
 ];
 
 export function ApcDataManagementShell() {
@@ -162,36 +134,6 @@ export function ApcDataManagementShell() {
         </ShellPanel>
 
         <ShellTabs onChange={setActiveTab} tabs={tabs} value={activeTab} />
-
-        <AppliedFilterChips
-          context={matrixContext}
-          onClear={clearContext}
-        />
-
-        <section className="jadx-flow-rail" aria-label="JADX 메뉴 연계 시나리오">
-          <header>
-            <strong>JADX 메뉴 흐름 시나리오</strong>
-            <p>운영 JADX 직접 수정이 아니라, 독립 MVP에서 기존 APC 데이터 관리 흐름을 재현합니다.</p>
-          </header>
-          <div className="jadx-flow-steps">
-            {scenarioSteps.map((step) => (
-              <button
-                aria-current={activeTab === step.tab ? "step" : undefined}
-                className="jadx-flow-step"
-                key={step.tab}
-                onClick={() => {
-                  clearContext();
-                  setActiveTab(step.tab);
-                }}
-                type="button"
-              >
-                <span>{step.label}</span>
-                <strong>{tabs.find((tab) => tab.value === step.tab)?.label}</strong>
-                <small>{step.description}</small>
-              </button>
-            ))}
-          </div>
-        </section>
 
         <section className="tab-stage" aria-label={`${activeLabel} 화면`}>
           {activeTab === "monitoring" ? (
