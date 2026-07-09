@@ -9,7 +9,6 @@ import {
   getCurrentUserRole,
   setCurrentUserRole as setGlobalCurrentUserRole
 } from "@shared/auth/currentUserRole";
-import { canCreateIssueAction } from "@shared/auth/rolePermissions";
 import type { UserRole } from "@shared/types/monitoring";
 
 export const USER_ROLE_LABELS: Record<UserRole, string> = {
@@ -19,11 +18,8 @@ export const USER_ROLE_LABELS: Record<UserRole, string> = {
 };
 
 interface UserRoleContextValue {
-  canCreateIssueAction: boolean;
-  canEditRules: boolean;
   canViewRestrictedPaths: boolean;
   role: UserRole;
-  roleLabel: string;
   setRole: (role: UserRole) => void;
 }
 
@@ -34,11 +30,8 @@ export function UserRoleProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<UserRoleContextValue>(() => {
     return {
-      canCreateIssueAction: canCreateIssueAction(role),
-      canEditRules: role === "ADMIN",
       canViewRestrictedPaths: role !== "VIEWER",
       role,
-      roleLabel: USER_ROLE_LABELS[role],
       setRole(nextRole) {
         setGlobalCurrentUserRole(nextRole);
         setRoleState(nextRole);

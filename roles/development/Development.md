@@ -165,42 +165,18 @@ Query:
 
 특정 수신/이슈의 pipeline step, DAG/log preview, 다음 조치 안내를 반환한다.
 
-### `GET /api/monitoring/actions`
+### 제외된 write/settings API
 
-운영 조치 이력 목록을 반환한다.
+네 번째 QA 이후 `운영 조치 작성/내역`과 `모니터링 기준 수정`은 MVP API 계약에서 제거한다. 해당 기능은 DB, 감사 이력, 권한 정책, 동시성 처리가 함께 있어야 설득력 있는 기능이므로 fixture/process memory 기반으로 제공하지 않는다.
 
-### `POST /api/monitoring/issues/{issue_id}/actions`
+제거된 endpoint:
 
-MVP에서는 fixture repository에 메모리 상으로만 조치 이력을 추가한다. 새로고침 후 영속성은 보장하지 않는다.
-
-Request:
-
-```json
-{
-  "nextStatus": "IN_PROGRESS",
-  "assignee": "운영 담당자",
-  "memo": "중문 선별 정제 실패 확인 중"
-}
-```
-
-### `GET /api/monitoring/rules`
-
-모니터링 기준 목록과 변경 이력을 반환한다.
-
-### `PUT /api/monitoring/rules/{rule_id}`
-
-MVP에서는 fixture repository에 메모리 상으로만 기준 변경 결과를 반영한다.
-
-Request:
-
-```json
-{
-  "expectedIntervalMinutes": 60,
-  "allowedDelayMinutes": 30,
-  "requiredFields": ["apc", "crop", "snpSe", "quantity", "weight"],
-  "reason": "중문 선별 데이터 수신 주기 변경"
-}
-```
+| Endpoint | 제거 사유 |
+| --- | --- |
+| `GET /api/monitoring/actions` | fixture 조회만 제공되어 실제 운영 이력으로 오해될 수 있음 |
+| `POST /api/monitoring/issues/{issue_id}/actions` | process memory append라 새로고침/배포 환경에서 영속성 없음 |
+| `GET /api/monitoring/rules` | mock 기준 조회가 실제 설정 관리로 오해될 수 있음 |
+| `PUT /api/monitoring/rules/{rule_id}` | process memory update라 감사/승인/권한 이력이 보장되지 않음 |
 
 ## 프론트 연동 기준
 
@@ -271,10 +247,9 @@ Request:
 | 수신 현황 | `feature/00_initial/02_ingestion_status.md` |
 | 데이터 품질 이슈 | `feature/00_initial/03_quality_issues.md` |
 | 파이프라인 추적 | `feature/00_initial/04_pipeline_trace.md` |
-| 운영 조치 내역 | `feature/00_initial/05_operation_actions.md` |
-| 모니터링 기준 설정 | `feature/00_initial/06_monitoring_rules.md` |
 | 데이터 조회 연계 | `feature/00_initial/07_data_lookup_integration.md` |
 | 시각화 연계 | `feature/00_initial/08_visualization_integration.md` |
+| Mock write 기능 제거 | `feature/04_after_fourth_qa/21_remove_mock_write_features.md` |
 
 ## Feature Lifecycle
 

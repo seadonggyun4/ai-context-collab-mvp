@@ -1,18 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ResourceState } from "@features/monitoring/components/ResourceState";
-import { useActionEntryFocus } from "@features/monitoring/hooks/useActionEntryFocus";
 import { useAsyncResource } from "@features/monitoring/hooks/useAsyncResource";
-import {
-  getActionEntryCalloutMessage,
-  getActionEntryPrimaryValue,
-  getActionEntrySourceLabel
-} from "@features/monitoring/services/actionEntryContext";
-import type {
-  ActionEntryContext,
-  MatrixDrilldownContext
-} from "@features/monitoring/types/shell";
+import type { MatrixDrilldownContext } from "@features/monitoring/types/shell";
 import { monitoringApi } from "@shared/api/monitoringApi";
-import { ShellButton, ShellPanel } from "@shared/components/AstryxPrimitives";
+import { ShellPanel } from "@shared/components/AstryxPrimitives";
 import {
   APC_LABELS,
   CROP_LABELS,
@@ -21,7 +12,7 @@ import {
   ISSUE_STATUS_LABELS,
   SNP_SE_LABELS
 } from "@shared/constants/monitoringLabels";
-import type { IssueStatus, IssueType, QualityIssueItem } from "@shared/types/monitoring";
+import type { IssueType, QualityIssueItem } from "@shared/types/monitoring";
 
 const ALL_ISSUE_TYPES = "ALL";
 
@@ -86,36 +77,25 @@ function maskSensitiveValue(fieldName: string, value: string | number | null) {
 }
 
 interface QualityIssuesPageProps {
-  actionEntryContext?: ActionEntryContext | null;
   drilldownContext?: MatrixDrilldownContext | null;
-  onClearActionEntryContext?: () => void;
-  onIssueActionCreated?: () => void;
 }
 
 export function QualityIssuesPage({
-  actionEntryContext,
-  drilldownContext,
-  onClearActionEntryContext,
-  onIssueActionCreated
+  drilldownContext
 }: QualityIssuesPageProps) {
   const [selectedIssueType, setSelectedIssueType] = useState<
     IssueType | typeof ALL_ISSUE_TYPES
   >(ALL_ISSUE_TYPES);
-  const actionFormRef = useRef<HTMLDivElement | null>(null);
   const baseIssueFilter = useMemo(
-    () =>
-      actionEntryContext
-        ? {}
-        : {
-            apc: drilldownContext?.apc,
-            crop: drilldownContext?.crop,
-            snpSe: drilldownContext?.snpSe
-          },
+    () => ({
+      apc: drilldownContext?.apc,
+      crop: drilldownContext?.crop,
+      snpSe: drilldownContext?.snpSe
+    }),
     [
       drilldownContext?.apc,
       drilldownContext?.crop,
-      drilldownContext?.snpSe,
-      actionEntryContext
+      drilldownContext?.snpSe
     ]
   );
   const allIssues = useAsyncResource(
@@ -137,9 +117,6 @@ export function QualityIssuesPage({
     ]
   );
   const [selectedIssueId, setSelectedIssueId] = useState<string | null>(null);
-  const [nextStatus, setNextStatus] = useState<IssueStatus>("IN_PROGRESS");
-  const [memo, setMemo] = useState("운영 담당자가 이슈를 확인했습니다.");
-  const [isSaving, setIsSaving] = useState(false);
 
   const selectedIssue = useMemo(() => {
     if (!issues.data?.items.length) {
@@ -150,40 +127,6 @@ export function QualityIssuesPage({
       issues.data.items[0]
     );
   }, [issues.data, selectedIssueId]);
-
-  useEffect(() => {
-    if (actionEntryContext?.issueId) {
-      return;
-    }
-
-    if (!issues.data?.items.length) {
-      setSelectedIssueId(null);
-      return;
-    }
-
-    const hasSelectedIssue = issues.data.items.some(
-      (item) => item.issueId === selectedIssueId
-    );
-
-    if (!hasSelectedIssue) {
-      setSelectedIssueId(issues.data.items[0].issueId);
-    }
-  }, [issues.data, actionEntryContext?.issueId, selectedIssueId]);
-
-  useEffect(() => {
-    if (!actionEntryContext?.issueId) {
-      return;
-    }
-
-    setSelectedIssueType(ALL_ISSUE_TYPES);
-    setSelectedIssueId(actionEntryContext.issueId);
-  }, [actionEntryContext?.issueId]);
-
-  const { shouldFocus } = useActionEntryFocus({
-    context: actionEntryContext,
-    selectedIssueId: selectedIssue?.issueId,
-    targetRef: actionFormRef
-  });
 
   const issueTypeCounts = useMemo(() => {
     const sourceIssues = allIssues.data?.items ?? [];
@@ -199,15 +142,6 @@ export function QualityIssuesPage({
   const sampleColumns = useMemo(() => {
     return selectedIssue ? getSampleColumns(selectedIssue) : [];
   }, [selectedIssue]);
-  const actionEntryLabel = actionEntryContext
-    ? getActionEntrySourceLabel(actionEntryContext)
-    : "";
-  const actionEntryPrimaryValue = actionEntryContext
-    ? getActionEntryPrimaryValue(actionEntryContext)
-    : "";
-  const actionEntryCalloutMessage = actionEntryContext
-    ? getActionEntryCalloutMessage(actionEntryContext)
-    : "";
 
   const state = (
     <ResourceState
@@ -220,26 +154,6 @@ export function QualityIssuesPage({
 
   if (!issues.data) {
     return state;
-  }
-
-  async function submitAction() {
-    if (!selectedIssue) {
-      return;
-    }
-
-    setIsSaving(true);
-    try {
-      await monitoringApi.createIssueAction(selectedIssue.issueId, {
-        assignee: "운영 담당자",
-        memo,
-        nextStatus
-      });
-      issues.reload();
-      allIssues.reload();
-      onIssueActionCreated?.();
-    } finally {
-      setIsSaving(false);
-    }
   }
 
   return (
@@ -311,22 +225,8 @@ export function QualityIssuesPage({
       </ShellPanel>
 
       {selectedIssue ? (
-        <ShellPanel title="이슈 상세 및 조치">
+        <ShellPanel title="이슈 상세">
           <div className="issue-detail">
-            {actionEntryContext ? (
-              <div className="pipeline-context-callout">
-                <div>
-                  <span>{actionEntryLabel}</span>
-                  <strong>{actionEntryPrimaryValue}</strong>
-                  <p>{actionEntryCalloutMessage}</p>
-                </div>
-                {onClearActionEntryContext ? (
-                  <ShellButton onClick={onClearActionEntryContext} variant="secondary">
-                    연결 해제
-                  </ShellButton>
-                ) : null}
-              </div>
-            ) : null}
             <strong>{selectedIssue.summary}</strong>
             <dl className="detail-list">
               <div>
@@ -392,33 +292,6 @@ export function QualityIssuesPage({
                 농가명, 담당자명 등 식별 가능 정보는 화면 표시 단계에서 마스킹합니다.
               </p>
             </section>
-            <div
-              className={
-                shouldFocus ? "action-form-block is-focused" : "action-form-block"
-              }
-              aria-label="운영 조치 작성 영역"
-              ref={actionFormRef}
-              tabIndex={-1}
-            >
-              <label className="light-field">
-                <span>상태 변경</span>
-                <select
-                  onChange={(event) => setNextStatus(event.target.value as IssueStatus)}
-                  value={nextStatus}
-                >
-                  <option value="IN_PROGRESS">확인중</option>
-                  <option value="RESOLVED">조치완료</option>
-                  <option value="IGNORED">무시</option>
-                </select>
-              </label>
-              <label className="light-field">
-                <span>메모</span>
-                <textarea onChange={(event) => setMemo(event.target.value)} value={memo} />
-              </label>
-              <ShellButton disabled={isSaving} onClick={submitAction}>
-                {isSaving ? "저장 중" : "조치 등록"}
-              </ShellButton>
-            </div>
           </div>
         </ShellPanel>
       ) : null}

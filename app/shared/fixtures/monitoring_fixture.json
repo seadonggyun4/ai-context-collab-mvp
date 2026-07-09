@@ -8,9 +8,7 @@
       "roles/development/feature/01_monitoring_home.md",
       "roles/development/feature/02_ingestion_status.md",
       "roles/development/feature/03_quality_issues.md",
-      "roles/development/feature/04_pipeline_trace.md",
-      "roles/development/feature/05_operation_actions.md",
-      "roles/development/feature/06_monitoring_rules.md"
+      "roles/development/feature/04_pipeline_trace.md"
     ]
   },
   "summary": {
@@ -435,7 +433,7 @@
         "assignee": "기획 담당자",
         "downloadRisk": false,
         "summary": "현재 모니터링 기준에 없는 위미 당근 입고 조합이 수신되었다.",
-        "impactRange": "모니터링 기준 설정과 데이터 조회 필터 정책",
+        "impactRange": "운영 기준 문서와 데이터 조회 필터 정책",
         "recommendedAction": "지원 대상 APC/품목 조합인지 기획 기준을 확인한다.",
         "sampleRows": [
           {
@@ -612,7 +610,7 @@
       "startedAt": "2026-07-09T08:50:00+09:00",
       "endedAt": "2026-07-09T08:53:00+09:00",
       "relatedIssueIds": [],
-      "recommendedAction": "모니터링 기준 설정에서 구좌 당근 선별 기준을 정의한다.",
+      "recommendedAction": "운영 기준 문서에서 구좌 당근 선별 기준을 정의한다.",
       "steps": [
         {
           "stepKey": "API_RECEIVED",
@@ -634,146 +632,9 @@
           "dagId": null,
           "taskId": null,
           "logPreview": null,
-          "nextAction": "기준 설정을 등록한다."
+          "nextAction": "운영 기준 문서를 보완한다."
         }
       ]
     }
-  ],
-  "actions": {
-    "generatedAt": "2026-07-09T09:30:00+09:00",
-    "items": [
-      {
-        "actionId": "action-wimi-001",
-        "issueId": "issue-wimi-refined-limited",
-        "createdAt": "2026-07-09T09:05:00+09:00",
-        "author": "데이터 운영 담당자",
-        "previousStatus": "OPEN",
-        "nextStatus": "IN_PROGRESS",
-        "memo": "위미 정제 제한 상태 확인. 화면 내 경고로 우선 대응.",
-        "recurrenceCount": 2
-      },
-      {
-        "actionId": "action-jungmun-001",
-        "issueId": "issue-jungmun-refined-failed",
-        "createdAt": "2026-07-09T09:22:00+09:00",
-        "author": "QA 담당자",
-        "previousStatus": null,
-        "nextStatus": "OPEN",
-        "memo": "Excel 다운로드 전 경고가 필요한 이슈로 등록.",
-        "recurrenceCount": 1
-      }
-    ]
-  },
-  "rules": {
-    "generatedAt": "2026-07-09T09:30:00+09:00",
-    "items": [
-      {
-        "ruleId": "rule-namwon-citrus-clsfy",
-        "apc": "NAMWON",
-        "crop": "CITRUS",
-        "snpSe": "CLSFY",
-        "expectedIntervalMinutes": 60,
-        "allowedDelayMinutes": 30,
-        "requiredFields": ["apc", "crop", "snpSe", "quantity", "weight"],
-        "duplicateKeys": ["apc", "crop", "snpSe", "classificationDate"],
-        "severityPolicy": {
-          "high": "정제 실패 또는 미수신",
-          "medium": "허용 지연 시간 초과",
-          "low": "보조 필드 누락"
-        },
-        "isEditable": true,
-        "lastUpdatedBy": "관리자",
-        "lastUpdatedAt": "2026-07-09T08:00:00+09:00",
-        "changeHistory": []
-      },
-      {
-        "ruleId": "rule-jungmun-citrus-wrhs",
-        "apc": "JUNGMUN",
-        "crop": "CITRUS",
-        "snpSe": "WRHS",
-        "expectedIntervalMinutes": 60,
-        "allowedDelayMinutes": 30,
-        "requiredFields": ["apc", "crop", "snpSe", "warehousingDate", "weight"],
-        "duplicateKeys": ["apc", "crop", "snpSe", "warehousingDate"],
-        "severityPolicy": {
-          "high": "입고 미수신",
-          "medium": "입고 지연",
-          "low": "보조 필드 누락"
-        },
-        "isEditable": true,
-        "lastUpdatedBy": "관리자",
-        "lastUpdatedAt": "2026-07-09T08:00:00+09:00",
-        "changeHistory": []
-      },
-      {
-        "ruleId": "rule-jungmun-citrus-clsfy",
-        "apc": "JUNGMUN",
-        "crop": "CITRUS",
-        "snpSe": "CLSFY",
-        "expectedIntervalMinutes": 60,
-        "allowedDelayMinutes": 30,
-        "requiredFields": ["apc", "crop", "snpSe", "classificationDate", "weight"],
-        "duplicateKeys": ["apc", "crop", "snpSe", "classificationDate"],
-        "severityPolicy": {
-          "high": "선별 정제 실패",
-          "medium": "선별 지연",
-          "low": "보조 필드 누락"
-        },
-        "isEditable": true,
-        "lastUpdatedBy": "관리자",
-        "lastUpdatedAt": "2026-07-09T08:00:00+09:00",
-        "changeHistory": [
-          {
-            "changedAt": "2026-07-09T08:00:00+09:00",
-            "changedBy": "관리자",
-            "reason": "중문 입고/선별 분리 기준 적용",
-            "before": {
-              "expectedIntervalMinutes": null
-            },
-            "after": {
-              "expectedIntervalMinutes": 60
-            }
-          }
-        ]
-      },
-      {
-        "ruleId": "rule-wimi-citrus-clsfy",
-        "apc": "WIMI",
-        "crop": "CITRUS",
-        "snpSe": "CLSFY",
-        "expectedIntervalMinutes": 60,
-        "allowedDelayMinutes": 30,
-        "requiredFields": ["apc", "crop", "snpSe", "classificationDate"],
-        "duplicateKeys": ["apc", "crop", "snpSe", "classificationDate"],
-        "severityPolicy": {
-          "high": "정제 제한 상태에서 다운로드 시도",
-          "medium": "수신 지연",
-          "low": "보조 필드 누락"
-        },
-        "isEditable": true,
-        "lastUpdatedBy": "관리자",
-        "lastUpdatedAt": "2026-07-09T08:00:00+09:00",
-        "changeHistory": []
-      },
-      {
-        "ruleId": "rule-gujwa-carrot-clsfy",
-        "apc": "GUJWA",
-        "crop": "CARROT",
-        "snpSe": "CLSFY",
-        "expectedIntervalMinutes": null,
-        "allowedDelayMinutes": null,
-        "requiredFields": [],
-        "duplicateKeys": [],
-        "severityPolicy": {
-          "high": "기준 미정 상태에서 오류 발생",
-          "medium": "기준 미정",
-          "low": "기준 보완 필요"
-        },
-        "isEditable": true,
-        "lastUpdatedBy": null,
-        "lastUpdatedAt": null,
-        "changeHistory": []
-      }
-    ]
-  }
+  ]
 }

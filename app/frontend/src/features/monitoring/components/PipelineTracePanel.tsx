@@ -1,18 +1,14 @@
-import { ShellButton, ShellPanel } from "@shared/components/AstryxPrimitives";
+import { ShellPanel } from "@shared/components/AstryxPrimitives";
 import { StatusBadge } from "@shared/components/StatusBadge";
 import { PIPELINE_STEP_STATUS_LABELS } from "@shared/constants/monitoringLabels";
 import type { PipelineTraceResponse } from "@shared/types/monitoring";
 
 interface PipelineTracePanelProps {
   trace: PipelineTraceResponse;
-  onOpenRelatedIssue?: (issueId: string, traceId: string) => void;
-  onOpenRelatedIssueAction?: (issueId: string, traceId: string) => void;
 }
 
 export function PipelineTracePanel({
-  trace,
-  onOpenRelatedIssue,
-  onOpenRelatedIssueAction
+  trace
 }: PipelineTracePanelProps) {
   const primaryIssueId = trace.relatedIssueIds[0] ?? null;
   const hasFailedStep = trace.steps.some((step) => step.status === "FAILED");
@@ -33,22 +29,7 @@ export function PipelineTracePanel({
             <div>
               <span>관련 이슈</span>
               <strong>{trace.relatedIssueIds.join(", ")}</strong>
-              <p>
-                실패 trace를 품질 이슈 상세와 운영 조치 작성 흐름으로 연결합니다.
-              </p>
-            </div>
-            <div className="pipeline-cta-actions">
-              <ShellButton
-                onClick={() => onOpenRelatedIssue?.(primaryIssueId, trace.traceId)}
-                variant="secondary"
-              >
-                관련 이슈 보기
-              </ShellButton>
-              <ShellButton
-                onClick={() => onOpenRelatedIssueAction?.(primaryIssueId, trace.traceId)}
-              >
-                운영 조치 작성
-              </ShellButton>
+              <p>실패 trace와 연결된 품질 이슈입니다. 상세 확인은 데이터 품질 이슈 탭에서 진행합니다.</p>
             </div>
           </>
         ) : (

@@ -24,14 +24,12 @@
 | `GET /api/monitoring/ingestions` | `IngestionStatusResponse` |
 | `GET /api/monitoring/issues` | `QualityIssueResponse` |
 | `GET /api/monitoring/pipeline/{trace_id}` | `PipelineTraceResponse` |
-| `GET /api/monitoring/actions` | `OperationActionResponse` |
-| `POST /api/monitoring/issues/{issue_id}/actions` | `OperationActionItem` |
-| `GET /api/monitoring/rules` | `MonitoringRuleResponse` |
-| `PUT /api/monitoring/rules/{rule_id}` | `MonitoringRuleItem` |
 
 ## API 구현 상태
 
-Phase 4 기준으로 위 endpoint는 FastAPI router에서 제공된다. MVP에서는 deterministic fixture repository를 사용하며, `POST action`과 `PUT rule`은 process memory 안에서만 변경된다.
+Phase 4 기준으로 위 endpoint는 FastAPI router에서 제공된다. MVP에서는 deterministic fixture repository를 사용한다.
+
+DB가 필요한 운영 조치 작성, 운영 조치 내역, 모니터링 기준 수정 endpoint는 MVP 범위에서 제거한다. 문서 기반 AI 협업 엔진 시연 목적상 process memory로만 저장되는 반쪽짜리 write 기능은 제공하지 않는다.
 
 ## 구현 파일
 

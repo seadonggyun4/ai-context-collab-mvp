@@ -130,8 +130,8 @@ def test_get_pipeline_trace_and_missing_trace(client: TestClient) -> None:
     assert missing_response.json()["detail"]["code"] == "PIPELINE_TRACE_NOT_FOUND"
 
 
-def test_create_issue_action_updates_memory_state(client: TestClient) -> None:
-    response = client.post(
+def test_mock_write_endpoints_are_not_exposed(client: TestClient) -> None:
+    action_response = client.post(
         "/api/monitoring/issues/issue-jungmun-refined-failed/actions",
         json={
             "nextStatus": "IN_PROGRESS",
@@ -139,64 +139,7 @@ def test_create_issue_action_updates_memory_state(client: TestClient) -> None:
             "memo": "중문 선별 정제 실패 확인 중",
         },
     )
+    rules_response = client.get("/api/monitoring/rules")
 
-    assert response.status_code == 201
-    body = response.json()
-    assert body["issueId"] == "issue-jungmun-refined-failed"
-    assert body["previousStatus"] == "OPEN"
-    assert body["nextStatus"] == "IN_PROGRESS"
-
-    actions_response = client.get(
-        "/api/monitoring/actions",
-        params={"issueId": "issue-jungmun-refined-failed", "status": "IN_PROGRESS"},
-    )
-
-    assert actions_response.status_code == 200
-    assert actions_response.json()["items"][-1]["memo"] == "중문 선별 정제 실패 확인 중"
-
-
-def test_update_monitoring_rule(client: TestClient) -> None:
-    response = client.put(
-        "/api/monitoring/rules/rule-jungmun-citrus-clsfy",
-        json={
-            "expectedIntervalMinutes": 45,
-            "allowedDelayMinutes": 20,
-            "requiredFields": ["apc", "crop", "snpSe", "quantity", "weight"],
-            "duplicateKeys": ["apc", "crop", "snpSe", "receivedAt"],
-            "reason": "중문 선별 데이터 수신 주기 조정",
-        },
-    )
-
-    assert response.status_code == 200
-    body = response.json()
-    assert body["expectedIntervalMinutes"] == 45
-    assert body["allowedDelayMinutes"] == 20
-    assert body["lastUpdatedBy"] == "MVP 관리자"
-    assert body["changeHistory"][0]["reason"] == "중문 선별 데이터 수신 주기 조정"
-
-
-def test_non_admin_rules_are_readonly(client: TestClient) -> None:
-    response = client.get(
-        "/api/monitoring/rules",
-        headers={"X-User-Role": "OPERATOR"},
-    )
-
-    assert response.status_code == 200
-    assert {item["isEditable"] for item in response.json()["items"]} == {False}
-
-
-def test_non_admin_cannot_update_monitoring_rule(client: TestClient) -> None:
-    response = client.put(
-        "/api/monitoring/rules/rule-jungmun-citrus-clsfy",
-        headers={"X-User-Role": "OPERATOR"},
-        json={
-            "expectedIntervalMinutes": 45,
-            "allowedDelayMinutes": 20,
-            "requiredFields": ["apc", "crop", "snpSe", "quantity", "weight"],
-            "duplicateKeys": ["apc", "crop", "snpSe", "receivedAt"],
-            "reason": "권한 없는 기준 변경 시도",
-        },
-    )
-
-    assert response.status_code == 403
-    assert response.json()["detail"]["code"] == "RULE_NOT_EDITABLE"
+    assert action_response.status_code == 404
+    assert rules_response.status_code == 404

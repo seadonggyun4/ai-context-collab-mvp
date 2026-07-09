@@ -6,8 +6,6 @@ from functools import cached_property
 from pathlib import Path
 from typing import Any
 
-from app.monitoring.schemas.actions import OperationActionResponse
-from app.monitoring.schemas.actions import OperationActionItem
 from app.monitoring.schemas.enums import (
     ApcName,
     CropType,
@@ -19,13 +17,8 @@ from app.monitoring.schemas.enums import (
     UserRole,
 )
 from app.monitoring.schemas.ingestion import IngestionStatusResponse
-from app.monitoring.schemas.issues import CreateIssueActionRequest, QualityIssueResponse
+from app.monitoring.schemas.issues import QualityIssueResponse
 from app.monitoring.schemas.pipeline import PipelineTraceResponse
-from app.monitoring.schemas.rules import (
-    MonitoringRuleItem,
-    MonitoringRuleResponse,
-    UpdateMonitoringRuleRequest,
-)
 from app.monitoring.schemas.summary import MonitoringSummaryResponse
 
 STATUS_PRIORITY: dict[MonitoringStatus, int] = {
@@ -38,10 +31,6 @@ STATUS_PRIORITY: dict[MonitoringStatus, int] = {
 
 
 class FixtureNotFoundError(KeyError):
-    pass
-
-
-class FixturePermissionError(PermissionError):
     pass
 
 
@@ -128,104 +117,6 @@ class MonitoringFixtureRepository:
                 return PipelineTraceResponse(**deepcopy(item))
         raise FixtureNotFoundError(trace_id)
 
-    def get_actions(
-        self,
-        *,
-        issue_id: str | None = None,
-        apc: ApcName | None = None,
-        status: IssueStatus | None = None,
-        assignee: str | None = None,
-    ) -> OperationActionResponse:
-        payload = deepcopy(self.data["actions"])
-        issues_by_id = {item["issueId"]: item for item in self.data["issues"]["items"]}
-
-        def matches(item: dict[str, Any]) -> bool:
-            issue = issues_by_id.get(item["issueId"])
-            return (
-                (issue_id is None or item["issueId"] == issue_id)
-                and (status is None or item["nextStatus"] == status)
-                and (assignee is None or assignee in item.get("author", ""))
-                and (apc is None or (issue is not None and issue["apc"] == apc))
-            )
-
-        payload["items"] = [item for item in payload["items"] if matches(item)]
-        return OperationActionResponse(**payload)
-
-    def create_issue_action(
-        self, issue_id: str, request: CreateIssueActionRequest
-    ) -> OperationActionItem:
-        issue = self._find_issue(issue_id)
-        action_payload = {
-            "actionId": f"action-mvp-{len(self.data['actions']['items']) + 1:03d}",
-            "issueId": issue_id,
-            "createdAt": self.data["metadata"]["generatedAt"],
-            "author": request.assignee,
-            "previousStatus": issue["status"],
-            "nextStatus": request.next_status,
-            "memo": request.memo,
-            "recurrenceCount": self._count_issue_actions(issue_id),
-        }
-
-        self.data["actions"]["items"].append(action_payload)
-        issue["status"] = request.next_status
-
-        return OperationActionItem(**deepcopy(action_payload))
-
-    def get_rules(
-        self,
-        *,
-        apc: ApcName | None = None,
-        crop: CropType | None = None,
-        snp_se: SnpSe | None = None,
-        user_role: UserRole = UserRole.ADMIN,
-    ) -> MonitoringRuleResponse:
-        payload = deepcopy(self.data["rules"])
-        payload["items"] = [
-            item
-            for item in payload["items"]
-            if self._matches_monitoring_filter(item, apc, crop, snp_se, None)
-        ]
-        if user_role != UserRole.ADMIN:
-            payload["items"] = [self._mark_rule_readonly(item) for item in payload["items"]]
-        return MonitoringRuleResponse(**payload)
-
-    def update_rule(
-        self,
-        rule_id: str,
-        request: UpdateMonitoringRuleRequest,
-        *,
-        user_role: UserRole = UserRole.ADMIN,
-    ) -> MonitoringRuleItem:
-        rule = self._find_rule(rule_id)
-        if user_role != UserRole.ADMIN:
-            raise FixturePermissionError(f"{rule_id}: role {user_role} cannot edit rules")
-        if not rule["isEditable"]:
-            raise FixturePermissionError(rule_id)
-
-        before = {
-            "expectedIntervalMinutes": rule.get("expectedIntervalMinutes"),
-            "allowedDelayMinutes": rule.get("allowedDelayMinutes"),
-            "requiredFields": deepcopy(rule.get("requiredFields", [])),
-            "duplicateKeys": deepcopy(rule.get("duplicateKeys", [])),
-        }
-        after = request.model_dump(by_alias=True, exclude={"reason"})
-
-        rule.update(after)
-        rule["lastUpdatedBy"] = "MVP 관리자"
-        rule["lastUpdatedAt"] = self.data["metadata"]["generatedAt"]
-        rule.setdefault("changeHistory", []).insert(
-            0,
-            {
-                "changedAt": self.data["metadata"]["generatedAt"],
-                "changedBy": "MVP 관리자",
-                "reason": request.reason,
-                "before": before,
-                "after": after,
-            },
-        )
-
-        return MonitoringRuleItem(**deepcopy(rule))
-
     @staticmethod
     def _mask_restricted_ingestion_paths(item: dict[str, Any]) -> dict[str, Any]:
         masked = deepcopy(item)
@@ -235,35 +126,18 @@ class MonitoringFixtureRepository:
             masked["refinedPath"] = "••••/restricted"
         return masked
 
-    @staticmethod
-    def _mark_rule_readonly(item: dict[str, Any]) -> dict[str, Any]:
-        readonly = deepcopy(item)
-        readonly["isEditable"] = False
-        return readonly
-
     def validate_all(self) -> None:
         self.get_summary()
         self.get_ingestions()
         self.get_issues()
         for item in self.data["pipelineTraces"]:
             self.get_pipeline_trace(item["traceId"])
-        self.get_actions()
-        self.get_rules()
 
     def _find_issue(self, issue_id: str) -> dict[str, Any]:
         for item in self.data["issues"]["items"]:
             if item["issueId"] == issue_id:
                 return item
         raise FixtureNotFoundError(issue_id)
-
-    def _find_rule(self, rule_id: str) -> dict[str, Any]:
-        for item in self.data["rules"]["items"]:
-            if item["ruleId"] == rule_id:
-                return item
-        raise FixtureNotFoundError(rule_id)
-
-    def _count_issue_actions(self, issue_id: str) -> int:
-        return sum(1 for item in self.data["actions"]["items"] if item["issueId"] == issue_id)
 
     @staticmethod
     def _matches_monitoring_filter(

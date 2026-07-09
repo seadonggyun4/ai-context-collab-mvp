@@ -27,12 +27,11 @@ QA는 다음 질문에 답해야 한다.
 | --- | --- |
 | 모니터링 홈 | KPI, matrix, 최근 이슈, 상태 분포 |
 | 수신 현황 | 필터, 정렬, 수신 timeline, origin/refined 권한 표시 |
-| 데이터 품질 이슈 | 이슈 목록, 상세, 상태 변경, Excel 다운로드 경고 |
+| 데이터 품질 이슈 | 이슈 목록, 상세, 원인/영향/권장 조치, Excel 다운로드 경고 |
 | 파이프라인 추적 | 단계별 상태, 실패 메시지, DAG/log preview |
-| 운영 조치 내역 | 조치 이력, 메모, 상태 변경, 재발 표시 |
-| 모니터링 기준 설정 | 기준 조회/수정, 변경 전후 diff, 권한 |
 | 데이터 조회 연계 | 기존 조회 유지, 품질 경고, 다운로드 확인 |
 | 시각화 연계 | 기존 차트 유지, 데이터 신뢰도 경고 |
+| Mock write 기능 제거 | 운영 조치/기준 설정 같은 DB 전제 기능이 MVP에서 노출되지 않는지 확인 |
 
 ## 공통 체크표
 
@@ -55,11 +54,10 @@ QA는 다음 질문에 답해야 한다.
 | 수신 현황 | `feature/02_ingestion_status_qa.md` |
 | 데이터 품질 이슈 | `feature/03_quality_issues_qa.md` |
 | 파이프라인 추적 | `feature/04_pipeline_trace_qa.md` |
-| 운영 조치 내역 | `feature/05_operation_actions_qa.md` |
-| 모니터링 기준 설정 | `feature/06_monitoring_rules_qa.md` |
 | 데이터 조회 연계 | `feature/07_data_lookup_integration_qa.md` |
 | 시각화 연계 | `feature/08_visualization_integration_qa.md` |
 | 수정 요청 추적성 | `feature/10_change_request_traceability_qa.md` |
+| Mock write 기능 제거 | `feature/13_mock_write_feature_removal_qa.md` |
 
 ## 완료 기준
 

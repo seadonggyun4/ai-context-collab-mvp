@@ -46,9 +46,3 @@ class QualityIssueItem(BaseModel):
 class QualityIssueResponse(BaseModel):
     generated_at: datetime = Field(alias="generatedAt")
     items: list[QualityIssueItem]
-
-
-class CreateIssueActionRequest(BaseModel):
-    next_status: IssueStatus = Field(alias="nextStatus")
-    assignee: str
-    memo: str = Field(min_length=1)

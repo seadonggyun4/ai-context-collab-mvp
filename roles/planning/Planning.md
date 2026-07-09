@@ -72,8 +72,8 @@ APC 데이터 관리
 | 수신 현황 | `feature/00_initial/02_ingestion_status.md` | APC별 최근 수신, 지연, origin/refined 저장 여부 확인 |
 | 데이터 품질 이슈 | `feature/00_initial/03_quality_issues.md` | 필수값 누락, 형식 오류, 중복 의심, 정제 실패 등 확인 |
 | 파이프라인 추적 | `feature/00_initial/04_pipeline_trace.md` | API 수신부터 화면 표시까지 실패 단계를 추적 |
-| 운영 조치 내역 | `feature/00_initial/05_operation_actions.md` | 누가, 언제, 무엇을 확인하고 조치했는지 기록 |
-| 모니터링 기준 설정 | `feature/00_initial/06_monitoring_rules.md` | 수신 주기, 지연 허용 시간, 품질 기준, 알림 기준 관리 |
+
+`운영 조치 내역`과 `모니터링 기준 설정`은 초기 기획에는 포함되었으나, 네 번째 QA 이후 사용자 검토에서 DB 없이 process memory로만 동작하는 반쪽짜리 write/settings 기능으로 판정되어 MVP 화면 범위에서 제거한다. 관련 히스토리는 `feature/04_after_fourth_qa/17_reduce_mock_write_features.md`에서 관리한다.
 
 ## Feature Lifecycle
 

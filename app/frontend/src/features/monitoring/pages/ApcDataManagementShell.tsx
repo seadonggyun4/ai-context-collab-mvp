@@ -6,21 +6,14 @@ import {
 import { DataLookupIntegrationPage } from "@features/data-lookup-integration/DataLookupIntegrationPage";
 import { IngestionStatusPage } from "@features/monitoring/pages/IngestionStatusPage";
 import { MonitoringHomePage } from "@features/monitoring/pages/MonitoringHomePage";
-import { MonitoringRulesPage } from "@features/monitoring/pages/MonitoringRulesPage";
-import { OperationActionsPage } from "@features/monitoring/pages/OperationActionsPage";
 import { PipelineTracePage } from "@features/monitoring/pages/PipelineTracePage";
 import { QualityIssuesPage } from "@features/monitoring/pages/QualityIssuesPage";
 import { VisualizationIntegrationPage } from "@features/visualization-integration/VisualizationIntegrationPage";
 import type {
-  ActionEntryContext,
   ApcManagementTab,
   MatrixDrilldownCell,
   MatrixDrilldownContext
 } from "@features/monitoring/types/shell";
-import {
-  createOperationActionEntry,
-  createPipelineActionEntry
-} from "@features/monitoring/services/actionEntryContext";
 import { shellGeneratedAt } from "@features/monitoring/services/shellPreviewData";
 
 const tabs: Array<{ value: ApcManagementTab; label: string; count?: number }> = [
@@ -28,8 +21,6 @@ const tabs: Array<{ value: ApcManagementTab; label: string; count?: number }> = 
   { value: "ingestions", label: "수신 현황", count: 6 },
   { value: "issues", label: "데이터 품질 이슈", count: 3 },
   { value: "pipeline", label: "파이프라인 추적" },
-  { value: "actions", label: "운영 조치 내역" },
-  { value: "rules", label: "모니터링 기준 설정" },
   { value: "lookup", label: "데이터 조회" },
   { value: "visualization", label: "시각화" }
 ];
@@ -39,9 +30,6 @@ export function ApcDataManagementShell() {
   const [matrixContext, setMatrixContext] = useState<MatrixDrilldownContext | null>(
     null
   );
-  const [actionEntryContext, setActionEntryContext] =
-    useState<ActionEntryContext | null>(null);
-  const [actionTimelineRefreshKey, setActionTimelineRefreshKey] = useState(0);
   const activeLabel = useMemo(
     () => tabs.find((tab) => tab.value === activeTab)?.label ?? "모니터링",
     [activeTab]
@@ -58,19 +46,11 @@ export function ApcDataManagementShell() {
     };
 
     setMatrixContext(nextContext);
-    setActionEntryContext(null);
     setActiveTab(getMatrixTargetTab(cell));
-  }
-
-  function openActionEntry(context: ActionEntryContext) {
-    setMatrixContext(null);
-    setActionEntryContext(context);
-    setActiveTab("issues");
   }
 
   function clearContext() {
     setMatrixContext(null);
-    setActionEntryContext(null);
   }
 
   return (
@@ -96,39 +76,10 @@ export function ApcDataManagementShell() {
             <IngestionStatusPage drilldownContext={matrixContext} />
           ) : activeTab === "issues" ? (
             <QualityIssuesPage
-              actionEntryContext={actionEntryContext}
               drilldownContext={matrixContext}
-              onClearActionEntryContext={() => setActionEntryContext(null)}
-              onIssueActionCreated={() =>
-                setActionTimelineRefreshKey((currentKey) => currentKey + 1)
-              }
             />
           ) : activeTab === "pipeline" ? (
-            <PipelineTracePage
-              onOpenRelatedIssue={(issueId, traceId) =>
-                openActionEntry(createPipelineActionEntry({
-                  focusActionForm: false,
-                  issueId,
-                  traceId
-                }))
-              }
-              onOpenRelatedIssueAction={(issueId, traceId) =>
-                openActionEntry(createPipelineActionEntry({
-                  focusActionForm: true,
-                  issueId,
-                  traceId
-                }))
-              }
-            />
-          ) : activeTab === "actions" ? (
-            <OperationActionsPage
-              actionRefreshKey={actionTimelineRefreshKey}
-              onStartAction={(issueId) =>
-                openActionEntry(createOperationActionEntry(issueId))
-              }
-            />
-          ) : activeTab === "rules" ? (
-            <MonitoringRulesPage drilldownContext={matrixContext} />
+            <PipelineTracePage />
           ) : activeTab === "lookup" ? (
             <DataLookupIntegrationPage
               onOpenIssues={() => {
@@ -163,10 +114,6 @@ export function ApcDataManagementShell() {
 function getMatrixTargetTab(cell: MatrixDrilldownCell): ApcManagementTab {
   if (cell.status === "ERROR") {
     return "issues";
-  }
-
-  if (cell.status === "UNDEFINED_RULE") {
-    return "rules";
   }
 
   return "ingestions";

@@ -10,15 +10,7 @@ import {
   SNP_SE_LABELS
 } from "@shared/constants/monitoringLabels";
 
-interface PipelineTracePageProps {
-  onOpenRelatedIssue?: (issueId: string, traceId: string) => void;
-  onOpenRelatedIssueAction?: (issueId: string, traceId: string) => void;
-}
-
-export function PipelineTracePage({
-  onOpenRelatedIssue,
-  onOpenRelatedIssueAction
-}: PipelineTracePageProps) {
+export function PipelineTracePage() {
   const ingestions = useAsyncResource(() => monitoringApi.getIngestions(), []);
   const traceOptions = ingestions.data?.items ?? [];
   const [selectedTraceId, setSelectedTraceId] = useState("trace-jungmun-citrus-clsfy");
@@ -65,11 +57,7 @@ export function PipelineTracePage({
         }}
       />
       {trace.data ? (
-        <PipelineTracePanel
-          onOpenRelatedIssue={onOpenRelatedIssue}
-          onOpenRelatedIssueAction={onOpenRelatedIssueAction}
-          trace={trace.data}
-        />
+        <PipelineTracePanel trace={trace.data} />
       ) : null}
     </div>
   );
