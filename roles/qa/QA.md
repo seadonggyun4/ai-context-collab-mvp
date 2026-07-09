@@ -76,6 +76,7 @@ QA는 다음 질문에 답해야 한다.
 | 2026-07-09 | `qa-results/second_qa_check.md` | 자동 검증/브라우저 시각 검증 통과, matrix drill-down/pipeline CTA 등 잔여 이슈 도출 |
 | 2026-07-09 | `qa-results/third_qa_check.md` | 세 번째 QA 실행, matrix drill-down/pipeline CTA 통과, operation action handoff 구현 대기 |
 | 2026-07-09 | `qa-results/fifth_qa_check.md` | 중복 flow UI 제거와 수신 현황 전용 matrix selectbox 필터 검증 통과 |
+| 2026-07-09 | `qa-results/sixth_qa_check.md` | 기능 없는 전역 필터와 중복 헤더 CTA 제거 검증 통과 |
 
 ## 실패 항목 후속 문서화 정책
 

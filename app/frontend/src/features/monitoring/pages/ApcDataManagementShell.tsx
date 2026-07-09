@@ -1,8 +1,6 @@
 import { useMemo, useState } from "react";
 import {
-  ShellButton,
   ShellPanel,
-  ShellSelect,
   ShellTabs
 } from "@shared/components/AstryxPrimitives";
 import { DataLookupIntegrationPage } from "@features/data-lookup-integration/DataLookupIntegrationPage";
@@ -24,8 +22,6 @@ import {
   createPipelineActionEntry
 } from "@features/monitoring/services/actionEntryContext";
 import { shellGeneratedAt } from "@features/monitoring/services/shellPreviewData";
-import { USER_ROLE_LABELS, useUserRole } from "@shared/auth/UserRoleContext";
-import type { UserRole } from "@shared/types/monitoring";
 
 const tabs: Array<{ value: ApcManagementTab; label: string; count?: number }> = [
   { value: "monitoring", label: "모니터링", count: 3 },
@@ -39,7 +35,6 @@ const tabs: Array<{ value: ApcManagementTab; label: string; count?: number }> = 
 ];
 
 export function ApcDataManagementShell() {
-  const { role, roleLabel, setRole } = useUserRole();
   const [activeTab, setActiveTab] = useState<ApcManagementTab>("monitoring");
   const [matrixContext, setMatrixContext] = useState<MatrixDrilldownContext | null>(
     null
@@ -87,51 +82,7 @@ export function ApcDataManagementShell() {
             <h1>APC 데이터 관리</h1>
             <p>마지막 갱신 {shellGeneratedAt.replace("T", " ").slice(0, 16)}</p>
           </div>
-          <div className="apc-header__actions">
-            <label className="role-switcher">
-              <span>현재 역할</span>
-              <select
-                aria-label="현재 사용자 역할"
-                onChange={(event) => setRole(event.target.value as UserRole)}
-                value={role}
-              >
-                {Object.entries(USER_ROLE_LABELS).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <span className="role-chip">{roleLabel}</span>
-            <ShellButton
-              onClick={() => {
-                clearContext();
-                setActiveTab("issues");
-              }}
-              variant="secondary"
-            >
-              품질 이슈
-            </ShellButton>
-            <ShellButton
-              onClick={() => {
-                clearContext();
-                setActiveTab("lookup");
-              }}
-            >
-              Excel 다운로드
-            </ShellButton>
-          </div>
         </header>
-
-        <ShellPanel className="filter-panel" tone="dark">
-          <div className="filter-grid">
-            <ShellSelect label="기준일" options={["2026-07-09"]} value="2026-07-09" />
-            <ShellSelect label="APC" options={["전체", "남원", "위미", "서귀", "중문", "구좌"]} value="전체" />
-            <ShellSelect label="품목" options={["전체", "감귤", "당근"]} value="전체" />
-            <ShellSelect label="입고/선별" options={["전체", "입고", "선별"]} value="전체" />
-            <ShellSelect label="상태" options={["전체", "정상", "지연", "오류", "미수신", "기준 미정"]} value="전체" />
-          </div>
-        </ShellPanel>
 
         <ShellTabs onChange={setActiveTab} tabs={tabs} value={activeTab} />
 
