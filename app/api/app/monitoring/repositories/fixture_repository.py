@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from copy import deepcopy
+from datetime import date, datetime, timedelta, timezone
 from functools import cached_property
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,8 @@ STATUS_PRIORITY: dict[MonitoringStatus, int] = {
     MonitoringStatus.UNDEFINED_RULE: 4,
     MonitoringStatus.NORMAL: 5,
 }
+KST = timezone(timedelta(hours=9))
+FIXTURE_BASE_DATE = date(2026, 7, 9)
 
 
 class FixtureNotFoundError(KeyError):
@@ -39,9 +42,13 @@ class MonitoringFixtureRepository:
         self.fixture_path = fixture_path or self._default_fixture_path()
 
     @cached_property
-    def data(self) -> dict[str, Any]:
+    def raw_data(self) -> dict[str, Any]:
         with self.fixture_path.open(encoding="utf-8") as file:
             return json.load(file)
+
+    @property
+    def data(self) -> dict[str, Any]:
+        return self._normalize_fixture_dates(self.raw_data)
 
     def get_summary(
         self,
@@ -180,3 +187,31 @@ class MonitoringFixtureRepository:
             / "fixtures"
             / "monitoring_fixture.json"
         )
+
+    @classmethod
+    def _normalize_fixture_dates(cls, payload: Any) -> Any:
+        day_delta = datetime.now(KST).date() - FIXTURE_BASE_DATE
+        return cls._shift_fixture_value(payload, day_delta)
+
+    @classmethod
+    def _shift_fixture_value(cls, value: Any, day_delta: timedelta) -> Any:
+        if isinstance(value, dict):
+            return {
+                item_key: cls._shift_fixture_value(item_value, day_delta)
+                for item_key, item_value in value.items()
+            }
+        if isinstance(value, list):
+            return [cls._shift_fixture_value(item, day_delta) for item in value]
+        if isinstance(value, str):
+            return cls._shift_fixture_string(value, day_delta)
+        return value
+
+    @staticmethod
+    def _shift_fixture_string(value: str, day_delta: timedelta) -> str:
+        if value.startswith("2026-07-09T"):
+            return (datetime.fromisoformat(value) + day_delta).isoformat()
+        if value == "2026-07-09":
+            return (FIXTURE_BASE_DATE + day_delta).isoformat()
+        if "2026-07-09" in value:
+            return value.replace("2026-07-09", (FIXTURE_BASE_DATE + day_delta).isoformat())
+        return value

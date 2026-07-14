@@ -58,6 +58,7 @@ QA는 다음 질문에 답해야 한다.
 | 시각화 연계 | `feature/08_visualization_integration_qa.md` |
 | 수정 요청 추적성 | `feature/10_change_request_traceability_qa.md` |
 | Mock write 기능 제거 | `feature/13_mock_write_feature_removal_qa.md` |
+| 동적 갱신일 표시 | `feature/14_dynamic_refresh_date_qa.md` |
 
 ## 완료 기준
 

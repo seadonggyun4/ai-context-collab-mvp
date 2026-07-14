@@ -5,39 +5,42 @@ import { useAsyncResource } from "@features/monitoring/hooks/useAsyncResource";
 import { monitoringApi } from "@shared/api/monitoringApi";
 import { ShellButton, ShellPanel } from "@shared/components/AstryxPrimitives";
 import type { QualityIssueItem } from "@shared/types/monitoring";
+import { getKstDateParam } from "@shared/utils/kstDate";
 
-const lookupRows = [
-  {
-    id: "lookup-jungmun-001",
-    apc: "중문",
-    crop: "감귤",
-    snpSe: "선별",
-    farm: "농가 A-014",
-    receivedAt: "2026-07-09 09:15",
-    weight: "1,240kg",
-    status: "정제 확인 필요"
-  },
-  {
-    id: "lookup-wimi-001",
-    apc: "위미",
-    crop: "감귤",
-    snpSe: "선별",
-    farm: "농가 W-021",
-    receivedAt: "2026-07-09 07:55",
-    weight: "860kg",
-    status: "정제 제한"
-  },
-  {
-    id: "lookup-namwon-001",
-    apc: "남원",
-    crop: "감귤",
-    snpSe: "선별",
-    farm: "농가 N-033",
-    receivedAt: "2026-07-09 09:05",
-    weight: "1,530kg",
-    status: "정상"
-  }
-];
+function getLookupRows(today: string) {
+  return [
+    {
+      id: "lookup-jungmun-001",
+      apc: "중문",
+      crop: "감귤",
+      snpSe: "선별",
+      farm: "농가 A-014",
+      receivedAt: `${today} 09:15`,
+      weight: "1,240kg",
+      status: "정제 확인 필요"
+    },
+    {
+      id: "lookup-wimi-001",
+      apc: "위미",
+      crop: "감귤",
+      snpSe: "선별",
+      farm: "농가 W-021",
+      receivedAt: `${today} 07:55`,
+      weight: "860kg",
+      status: "정제 제한"
+    },
+    {
+      id: "lookup-namwon-001",
+      apc: "남원",
+      crop: "감귤",
+      snpSe: "선별",
+      farm: "농가 N-033",
+      receivedAt: `${today} 09:05`,
+      weight: "1,530kg",
+      status: "정상"
+    }
+  ];
+}
 
 export function DataLookupIntegrationPage({
   onOpenIssues
@@ -55,6 +58,7 @@ export function DataLookupIntegrationPage({
   const [confirmState, setConfirmState] = useState<
     "idle" | "confirming" | "continued" | "cancelled"
   >("idle");
+  const lookupRows = useMemo(() => getLookupRows(getKstDateParam()), []);
 
   const riskyIssues = useMemo(
     () => issues.data?.items.filter((issue) => issue.downloadRisk) ?? [],

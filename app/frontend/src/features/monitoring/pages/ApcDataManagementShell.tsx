@@ -14,7 +14,7 @@ import type {
   MatrixDrilldownCell,
   MatrixDrilldownContext
 } from "@features/monitoring/types/shell";
-import { shellGeneratedAt } from "@features/monitoring/services/shellPreviewData";
+import { getKstDateTimeDisplay } from "@shared/utils/kstDate";
 
 const tabs: Array<{ value: ApcManagementTab; label: string; count?: number }> = [
   { value: "monitoring", label: "모니터링", count: 3 },
@@ -34,6 +34,7 @@ export function ApcDataManagementShell() {
     () => tabs.find((tab) => tab.value === activeTab)?.label ?? "모니터링",
     [activeTab]
   );
+  const displayedRefreshAt = useMemo(() => getKstDateTimeDisplay(), []);
 
   function selectMatrixCell(cell: MatrixDrilldownCell) {
     const nextContext: MatrixDrilldownContext = {
@@ -60,7 +61,7 @@ export function ApcDataManagementShell() {
           <div>
             <span className="app-eyebrow">APC(농산물산지유통센터) 모니터링 서비스</span>
             <h1>APC 데이터 관리</h1>
-            <p>마지막 갱신 {shellGeneratedAt.replace("T", " ").slice(0, 16)}</p>
+            <p>마지막 갱신 {displayedRefreshAt}</p>
           </div>
         </header>
 

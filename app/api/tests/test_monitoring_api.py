@@ -1,8 +1,16 @@
+from datetime import datetime, timedelta, timezone
+
 import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
 from app.monitoring.services import get_monitoring_service
+
+KST = timezone(timedelta(hours=9))
+
+
+def today_kst() -> str:
+    return datetime.now(KST).date().isoformat()
 
 
 @pytest.fixture(autouse=True)
@@ -22,7 +30,7 @@ def test_get_monitoring_summary(client: TestClient) -> None:
 
     assert response.status_code == 200
     body = response.json()
-    assert body["generatedAt"] == "2026-07-09T09:30:00+09:00"
+    assert body["generatedAt"].startswith(today_kst())
     assert body["matrix"][0]["traceId"] == "trace-jungmun-citrus-clsfy"
     assert body["matrix"][0]["status"] == "ERROR"
 
@@ -31,8 +39,8 @@ def test_get_ingestions_with_required_date_range(client: TestClient) -> None:
     response = client.get(
         "/api/monitoring/ingestions",
         params={
-            "startDate": "2026-07-09",
-            "endDate": "2026-07-09",
+            "startDate": today_kst(),
+            "endDate": today_kst(),
             "apc": "JUNGMUN",
             "snpSe": "CLSFY",
         },
@@ -43,6 +51,7 @@ def test_get_ingestions_with_required_date_range(client: TestClient) -> None:
     assert len(body["items"]) == 1
     assert body["items"][0]["status"] == "ERROR"
     assert body["items"][0]["refinedSaved"] is False
+    assert body["items"][0]["lastReceivedAt"].startswith(today_kst())
 
 
 def test_viewer_ingestions_mask_restricted_paths(client: TestClient) -> None:
@@ -50,8 +59,8 @@ def test_viewer_ingestions_mask_restricted_paths(client: TestClient) -> None:
         "/api/monitoring/ingestions",
         headers={"X-User-Role": "VIEWER"},
         params={
-            "startDate": "2026-07-09",
-            "endDate": "2026-07-09",
+            "startDate": today_kst(),
+            "endDate": today_kst(),
             "apc": "NAMWON",
         },
     )
@@ -67,8 +76,8 @@ def test_operator_can_view_ingestion_paths(client: TestClient) -> None:
         "/api/monitoring/ingestions",
         headers={"X-User-Role": "OPERATOR"},
         params={
-            "startDate": "2026-07-09",
-            "endDate": "2026-07-09",
+            "startDate": today_kst(),
+            "endDate": today_kst(),
             "apc": "NAMWON",
         },
     )
@@ -83,8 +92,8 @@ def test_get_quality_issues_with_filters(client: TestClient) -> None:
     response = client.get(
         "/api/monitoring/issues",
         params={
-            "startDate": "2026-07-09",
-            "endDate": "2026-07-09",
+            "startDate": today_kst(),
+            "endDate": today_kst(),
             "issueType": "REFINED_FAILED",
             "issueStatus": "OPEN",
             "severity": "HIGH",
@@ -95,14 +104,15 @@ def test_get_quality_issues_with_filters(client: TestClient) -> None:
     body = response.json()
     assert len(body["items"]) == 1
     assert body["items"][0]["issueId"] == "issue-jungmun-refined-failed"
+    assert body["items"][0]["lastOccurredAt"].startswith(today_kst())
 
 
 def test_get_quality_issues_covers_all_mvp_issue_types(client: TestClient) -> None:
     response = client.get(
         "/api/monitoring/issues",
         params={
-            "startDate": "2026-07-09",
-            "endDate": "2026-07-09",
+            "startDate": today_kst(),
+            "endDate": today_kst(),
         },
     )
 
@@ -122,7 +132,9 @@ def test_get_pipeline_trace_and_missing_trace(client: TestClient) -> None:
     response = client.get("/api/monitoring/pipeline/trace-jungmun-citrus-clsfy")
 
     assert response.status_code == 200
-    assert response.json()["relatedIssueIds"] == ["issue-jungmun-refined-failed"]
+    body = response.json()
+    assert body["relatedIssueIds"] == ["issue-jungmun-refined-failed"]
+    assert body["startedAt"].startswith(today_kst())
 
     missing_response = client.get("/api/monitoring/pipeline/missing-trace")
 

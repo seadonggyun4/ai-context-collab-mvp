@@ -13,6 +13,7 @@ import type {
   QualityIssueResponse,
   SnpSe
 } from "@shared/types/monitoring";
+import { getKstDateParam } from "@shared/utils/kstDate";
 
 export interface MonitoringFilterParams {
   apc?: ApcName;
@@ -32,10 +33,13 @@ export interface IssueFilterParams extends MonitoringFilterParams, DateRangePara
   severity?: IssueSeverity;
 }
 
-const DEFAULT_DATE_RANGE = {
-  startDate: "2026-07-09",
-  endDate: "2026-07-09"
-};
+function getDefaultDateRange() {
+  const today = getKstDateParam();
+  return {
+    startDate: today,
+    endDate: today
+  };
+}
 
 export const monitoringApi = {
   getSummary(params: MonitoringFilterParams = {}) {
@@ -47,7 +51,7 @@ export const monitoringApi = {
   getIngestions(params: MonitoringFilterParams & DateRangeParams = {}) {
     return apiRequest<IngestionStatusResponse>(
       withQuery(MONITORING_ENDPOINTS.ingestions, {
-        ...DEFAULT_DATE_RANGE,
+        ...getDefaultDateRange(),
         ...params
       })
     );
@@ -56,7 +60,7 @@ export const monitoringApi = {
   getIssues(params: IssueFilterParams = {}) {
     return apiRequest<QualityIssueResponse>(
       withQuery(MONITORING_ENDPOINTS.issues, {
-        ...DEFAULT_DATE_RANGE,
+        ...getDefaultDateRange(),
         ...params
       })
     );
