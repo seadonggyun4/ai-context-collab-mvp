@@ -95,6 +95,8 @@ QA 결과 및 변경 영향 분석
 
 이 구조의 핵심은 QA 결과가 별도 보고서로 끝나지 않는다는 점입니다. QA가 늘어날수록 역할별 feature 문서와 변경 영향 분석이 함께 쌓이고, 프로젝트의 의사결정 히스토리가 한 문맥 안에서 이어집니다.
 
+모든 신규 변경 요청은 역할별 문서를 만들기 전에 `change-management/`의 Change Manifest에서 시작합니다. Change Manifest는 요청의 현재 상태, 활성 기준, 예상·실제 영향 범위, 테스트 증거와 완료 판정을 한곳에서 연결합니다. 역할별 Feature와 QA Cycle은 상세 산출물을 담당하고, Change Manifest는 요청 전체의 진행 상태를 담당합니다.
+
 사용자가 화면을 보고 수정 요청을 하는 경우도 같은 흐름을 탑니다. AI는 바로 코드를 고치지 않고, 먼저 수정 요청이 기획, 퍼블리싱, 개발, QA 중 어느 역할에 영향을 주는지 분류합니다. 그 다음 최신 numbered cycle의 역할별 feature 문서를 생성하고, QA 체크표와 변경 영향 분석을 연결한 뒤 구현합니다. 그래서 작은 UI 수정도 “왜 바뀌었는지, 어느 역할 기준이 바뀌었는지, 어떻게 검증했는지”가 히스토리로 남습니다.
 
 ## 실행 앱
@@ -108,6 +110,14 @@ QA 결과 및 변경 영향 분석
 ## 주요 문서
 
 - `Project_Context.md`: 프로젝트의 단일 기준 문서
+- `Active_Context.md`: 현재 활성 기준 문서와 상태·범위·승인·시행·대체 관계
+- `change-management/README.md`: 변경 요청 상태, 단계별 완료 조건, 증거 및 완료 게이트
+- `change-management/approval-policy.md`: 고위험 변경 분류와 사용자 승인 게이트
+- `change-management/templates/change-manifest-template.md`: 신규 변경 요청 공통 템플릿
+- `change-management/templates/phase-transition-template.md`: 단일 AI 역할 전환 공통 선언 형식
+- `change-management/templates/self-review-template.md`: 편향 완화 Self-Review 공통 질문과 confidence 기록
+- `change-management/templates/verification-evidence-template.md`: QA 실행 증거 공통 형식
+- `evaluations/README.md`: Golden Cases, 공통 평가표, 지침 개선 루프
 - `roles/planning/Planning.md`: 기획 기준 문서
 - `roles/publishing/Publishing.md`: 퍼블리싱 기준 문서
 - `roles/development/Development.md`: 개발 기준 문서

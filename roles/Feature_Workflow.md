@@ -6,6 +6,10 @@
 
 사용자가 배포 화면이나 문서를 보고 수정사항을 요청하는 경우도 이 workflow를 따른다. AI는 사용자 요청을 받으면 즉시 구현하지 않고, 먼저 역할 영향 분류와 최신 numbered cycle feature 문서 생성을 수행한다.
 
+이 문서는 역할별 산출물의 순서를 정의한다. 요청 전체의 상태와 단계별 완료 근거는 `../change-management/README.md`와 해당 Change Manifest에서 관리한다. 역할 Feature의 체크가 완료되었다는 사실만으로 변경 요청 전체가 완료되지는 않는다.
+
+Planning, Publishing, Development, QA는 제품 산출물의 소유 역할이다. Change Management의 `CONTEXT_READER`, `PLANNER`, `IMPLEMENTER`, `TESTER`, `SELF_REVIEWER`, `REPORTER`는 단일 AI의 실행 Phase다. 예를 들어 `PLANNER` Phase는 Planning 역할 문서만 작성하는 단계가 아니라 이번 변경에 필요한 모든 역할 영향을 계획하는 단계다. 두 체계의 이름이나 완료 판정을 서로 대신 사용하지 않는다.
+
 최종 구현 feature는 다음 조건을 모두 만족해야 한다.
 
 ```text
@@ -64,10 +68,11 @@ roles/development/feature/{cycle}/
 
 사용자 수정 요청은 QA 실패 항목과 동일하게 관리한다. 요청이 들어오면 AI는 다음 절차를 따른다.
 
-1. 사용자 요청을 한 문장으로 요약한다.
-2. 요청을 planning / publishing / development / qa 영향으로 분류한다.
-3. 최신 QA cycle의 다음 numbered folder를 확인한다.
-4. 필요한 경우 다음 폴더를 생성한다.
+1. `../change-management/active/`에 Change Manifest를 만들고 요청 원문, 요약, 포함/제외 범위를 기록한다.
+2. `../Active_Context.md`, Project Context와 적용 기준 문서를 읽고 실제 적용 목록을 선언한 뒤 `CONTEXT_CONFIRMED` 근거를 기록한다.
+3. 요청을 planning / publishing / development / qa 영향으로 분류하고 Manifest에 예상 변경 범위를 작성한다.
+4. 최신 QA cycle의 다음 numbered folder를 확인한다.
+5. 필요한 경우 다음 폴더를 생성한다.
 
 ```text
 roles/planning/feature/{cycle}/
@@ -75,10 +80,15 @@ roles/publishing/feature/{cycle}/
 roles/development/feature/{cycle}/
 ```
 
-5. 각 역할에 필요한 feature 문서를 다음 순번으로 생성한다.
-6. QA 재검증이 필요한 경우 `roles/qa/feature/` 체크표를 생성하거나 갱신한다.
-7. impact-analysis가 필요한 변경이면 `impact-analysis/`에 변경 영향 문서를 생성한다.
-8. 문서 게이트가 충족된 뒤에 구현한다.
+6. 각 역할에 필요한 feature 문서를 다음 순번으로 생성한다.
+7. QA 재검증이 필요한 경우 `roles/qa/feature/` 체크표를 생성하거나 갱신한다.
+8. impact-analysis가 필요한 변경이면 `impact-analysis/`에 변경 영향 문서를 생성한다.
+9. Manifest의 Development Ready Gate가 충족된 뒤에 구현한다.
+10. 구현 후 예상·실제 변경, 테스트 증거, Self-Review를 기록하고 완료 조건을 판정한다.
+
+위 절차에서 단일 AI의 Phase가 바뀔 때마다 Manifest에 Phase Transition 선언을 먼저 추가한다. 검증 실패나 요구사항 변경으로 이전 단계로 돌아갈 때도 같은 전환 형식을 사용한다.
+
+고위험 변경은 `../change-management/approval-policy.md`의 사용자 승인 상태가 `APPROVED`가 아니면 Development Ready로 진행하지 않는다. Tester는 표준 Verification Evidence를 기록하고, Self-Reviewer는 실제 diff와 Evidence를 기준으로 편향 완화 질문과 confidence를 작성한다.
 
 | 요청 예시 | Planning | Publishing | Development | QA |
 | --- | --- | --- | --- | --- |
@@ -101,6 +111,8 @@ development feature는 아래 체크가 모두 채워져야 구현 완료 상태
 | Publishing acceptance 충족 | 컴포넌트, 상태 표현, 레이아웃, 반응형, 접근성 조건이 구현 TASK에 반영되어 있다. |
 | QA 참조 | 원인 QA ID와 재검증 체크표가 연결되어 있다. |
 | 테스트 조건 | 자동 검증 또는 수동 QA 기준이 명시되어 있다. |
+
+위 조건은 해당 Change Manifest의 `Development Ready Gate`에도 근거와 함께 기록한다. 하나라도 미충족이면 구현을 시작하지 않는다. 구현 중 범위나 요구사항이 바뀌면 Manifest를 `PLANNED`로 되돌려 영향 분석과 테스트 계획을 갱신한다.
 
 ## 공통 메타데이터 확장
 

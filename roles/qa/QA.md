@@ -4,6 +4,8 @@
 
 - `../../Project_Context.md`
 - `../../organization-standards/qa-standards.md`
+- `../../Active_Context.md`
+- `../../change-management/templates/verification-evidence-template.md`
 - `../planning/Planning.md`
 - `../publishing/Publishing.md`
 - `../development/Development.md`
@@ -66,6 +68,26 @@ QA는 다음 질문에 답해야 한다.
 - 실패 항목은 미해결 이슈로 남아 있다.
 - 변경 영향 분석 문서와 QA 범위가 연결되어 있다.
 - QA 결과를 통해 기획/퍼블리싱/개발 중 어느 문서 기준을 수정해야 하는지 판단할 수 있다.
+- 각 검증 결과가 표준 Verification Evidence 필드를 포함한다.
+- 실행하지 않은 테스트, 없는 artifact, 변경 전 증거를 통과 근거로 사용하지 않는다.
+
+## Verification Evidence 기록
+
+```markdown
+## Verification Evidence: EVID-NNN
+
+- Target:
+- Changed files:
+- Test command:
+- Exit code:
+- Result: `PASSED | FAILED | PARTIALLY_VERIFIED | STATIC_REVIEW_ONLY | NOT_EXECUTED | NOT_APPLICABLE`
+- Screenshot/log path:
+- Not executed:
+- Known limitations:
+- Self-review verdict:
+```
+
+체크표의 `[x]`는 위 Evidence가 연결된 경우에만 완료를 의미한다. Evidence가 없으면 체크 여부와 관계없이 미검증이다.
 
 ## QA 실행 결과
 
