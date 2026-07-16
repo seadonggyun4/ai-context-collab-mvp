@@ -25,4 +25,3 @@
 7. `Exit code`가 없는 수동 검토는 `없음 — 수동 검토`로 기록한다.
 8. `Changed files`는 검증 당시 실제 변경 목록을 기준으로 한다.
 9. Self-review verdict는 Evidence의 사실성을 재확인한 결과이지 테스트 결과를 바꾸는 필드가 아니다.
-

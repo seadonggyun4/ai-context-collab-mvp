@@ -42,4 +42,3 @@
 - Known limitations:
 - Required user decision:
 - Regression or re-entry required: 아니오 / `CONTEXT_READER | PLANNER | IMPLEMENTER | TESTER`
-

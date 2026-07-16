@@ -55,4 +55,3 @@
 - 변경하지 않을 규칙과 이유:
 - 후속 Change ID:
 - 재평가 필요 여부와 Case version:
-

@@ -7,4 +7,3 @@
 - 하나의 요청은 하나의 활성 Manifest만 가진다.
 - `COMPLETED` 또는 `CANCELLED` 전환 후에는 `../archive/YYYY/`로 이동한다.
 - 활성 요청이 없다면 이 README만 남긴다.
-

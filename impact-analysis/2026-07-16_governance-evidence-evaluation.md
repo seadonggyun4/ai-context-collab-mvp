@@ -3,7 +3,7 @@
 ## Change ID
 
 - `CR-2026-003`
-- Manifest: `change-management/active/CR-2026-003_governance-evidence-evaluation.md`
+- Manifest: `change-management/archive/2026/CR-2026-003_governance-evidence-evaluation.md`
 
 ## 변경 요약
 
@@ -33,7 +33,7 @@
 
 ## 예상 대비 실제
 
-검증 후 `CR-2026-003`에서 최종 파일 목록과 차이를 확정한다.
+예상한 Context, Change Management, QA, Evaluation, Impact Analysis 문서만 변경했다. 계획 밖 앱 코드나 외부 시스템은 추가하지 않았다. 첫 commit의 whitespace 경고는 후속 보정으로 해결하고 Evidence에 보존했다.
 
 ## 후속 운영
 
@@ -41,4 +41,3 @@
 - 고위험 요청은 Approval Record가 없으면 실제 적용하지 않는다.
 - QA 결과는 Verification Evidence 필드를 사용한다.
 - 반복 실패는 Golden Case Result와 후속 Change ID로 연결한다.
-

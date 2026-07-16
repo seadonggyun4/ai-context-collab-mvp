@@ -59,4 +59,3 @@
 ## 완료 조건
 
 고위험 변경은 Approval Record가 `APPROVED`가 아니면 `DEVELOPMENT_READY`로 전환할 수 없다. 승인 없이 만든 초안은 완료 구현이 아니며 `DRAFT_ONLY`로 보고한다.
-
