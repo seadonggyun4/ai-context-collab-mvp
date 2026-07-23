@@ -1,3 +1,6 @@
+// Copyright © 2026 서동균 (DongGyun Seo). All Rights Reserved.
+// SPDX-License-Identifier: LicenseRef-Proprietary
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 

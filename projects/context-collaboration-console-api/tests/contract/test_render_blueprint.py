@@ -14,7 +14,7 @@ def load_blueprint() -> dict[str, object]:
     return loaded
 
 
-def test_blueprint_defines_production_web_api_security_store_and_private_postgres() -> None:
+def test_blueprint_defines_zero_cost_initial_deployment() -> None:
     blueprint = load_blueprint()
     services = {service["name"]: service for service in blueprint["services"]}  # type: ignore[index]
     databases = {database["name"]: database for database in blueprint["databases"]}  # type: ignore[index]
@@ -26,25 +26,28 @@ def test_blueprint_defines_production_web_api_security_store_and_private_postgre
     assert {route["source"]: route["destination"] for route in web["routes"]}["/*"] == "/index.html"
 
     assert web["autoDeployTrigger"] == "checksPass"
-    assert next(item for item in web["envVars"] if item["key"] == "VITE_AUTH_REQUIRED")["value"] == "true"
+    assert next(item for item in web["envVars"] if item["key"] == "VITE_AUTH_REQUIRED")["value"] == "false"
 
     api = services["context-console-api"]
     assert api["runtime"] == "python"
     assert api["rootDir"] == "."
     assert api["healthCheckPath"] == "/health/ready"
-    assert "alembic upgrade head" in api["preDeployCommand"]
-    assert "app.scripts.seed" not in api["preDeployCommand"]
+    assert api["plan"] == "free"
+    assert "preDeployCommand" not in api
+    assert "alembic upgrade head" in api["startCommand"]
+    assert "app.scripts.seed" not in api["startCommand"]
     assert "docs/apc-monitoring-mvp/**" in api["buildFilter"]["paths"]
     assert api["autoDeployTrigger"] == "checksPass"
 
     key_value = services["context-console-security"]
     assert key_value["type"] == "keyvalue"
+    assert key_value["plan"] == "free"
     assert key_value["maxmemoryPolicy"] == "noeviction"
-    assert key_value["persistenceMode"] == "journal-snapshot"
+    assert key_value["persistenceMode"] == "off"
     assert key_value["ipAllowList"] == []
 
     database = databases["context-console-db"]
-    assert database["plan"] != "free"
+    assert database["plan"] == "free"
     assert database["ipAllowList"] == []
     database_url = next(variable for variable in api["envVars"] if variable["key"] == "DATABASE_URL")
     assert database_url["fromDatabase"] == {
@@ -57,25 +60,17 @@ def test_blueprint_defines_production_web_api_security_store_and_private_postgre
         "name": "context-console-security",
         "property": "connectionString",
     }
-    secrets = {"OIDC_ISSUER", "OIDC_CLIENT_ID", "OIDC_CLIENT_SECRET", "OIDC_ROLE_MAPPING"}
-    assert all(next(item for item in api["envVars"] if item["key"] == key)["sync"] is False for key in secrets)
+    assert next(item for item in api["envVars"] if item["key"] == "APP_ENV")["value"] == "preview"
+    assert not {"OIDC_ISSUER", "OIDC_CLIENT_ID", "OIDC_CLIENT_SECRET", "OIDC_ROLE_MAPPING"}.intersection(
+        item["key"] for item in api["envVars"]
+    )
 
 
-def test_preview_resources_expire_and_use_nonproduction_overrides() -> None:
+def test_paid_preview_resources_are_disabled() -> None:
     blueprint = load_blueprint()
-    assert blueprint["previews"] == {"generation": "automatic", "expireAfterDays": 3}
+    assert blueprint["previews"] == {"generation": "off"}
     services = {service["name"]: service for service in blueprint["services"]}  # type: ignore[index]
     databases = {database["name"]: database for database in blueprint["databases"]}  # type: ignore[index]
-    assert services["context-console-api"]["previews"] == {"generation": "automatic", "plan": "starter"}
-    assert services["context-console-security"]["previewPlan"] == "starter"
-    assert databases["context-console-db"]["previewPlan"] == "basic-256mb"
-    assert (
-        next(item for item in services["context-console-api"]["envVars"] if item["key"] == "APP_ENV")["previewValue"]
-        == "preview"
-    )
-    assert (
-        next(item for item in services["context-console-web"]["envVars"] if item["key"] == "VITE_DATA_SOURCE")[
-            "previewValue"
-        ]
-        == "fixture"
-    )
+    assert all("previews" not in service and "previewPlan" not in service for service in services.values())
+    assert all("previewValue" not in env_var for service in services.values() for env_var in service.get("envVars", []))
+    assert all("previewPlan" not in database for database in databases.values())

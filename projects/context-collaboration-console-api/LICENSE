@@ -1,0 +1,29 @@
+Context Collaboration Console API Proprietary License
+
+Copyright © 2026 서동균 (DongGyun Seo). All Rights Reserved.
+
+This software, including its original source code, API implementation, tests,
+configuration, migrations, and accompanying package documentation (the
+"Software"), is proprietary to 서동균 (DongGyun Seo).
+
+No copyright, ownership, patent, trade-secret, or other proprietary right is
+transferred by access to the Software, by a demonstration of the Software, or by
+its presence in a repository or deployment environment.
+
+Only persons expressly authorized by the copyright holder may view or execute the
+Software for evaluation or demonstration. Unless the copyright holder gives prior
+written permission, no person or entity may copy, modify, distribute, sublicense,
+sell, commercialize, publish, disclose, reverse engineer, create derivative works
+from, or use the Software to provide a product or service.
+
+This license covers only original work located under
+`projects/context-collaboration-console-api/`. It does not claim ownership of
+FastAPI, SQLAlchemy, PostgreSQL, Valkey/Redis, other external dependencies, their
+licenses, or content and assets supplied by third parties. It also does not apply
+to any other project in the repository.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. TO THE MAXIMUM
+EXTENT PERMITTED BY LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM,
+DAMAGE, OR OTHER LIABILITY ARISING FROM ACCESS TO OR USE OF THE SOFTWARE.
+
+For permissions, contact the copyright holder in writing.

@@ -41,6 +41,8 @@
 | `product/backend-requirements.md` | `ACTIVE` | backend 사용자 기능·운영 요구사항 |
 | `engineering/backend-development-plan.md` | `ACTIVE` | backend 기술 스택·모듈·단계 계획 |
 | `engineering/render-deployment.md` | `ACTIVE` | Render 통합 배포·환경·운영 계약 |
+| `AUTHORSHIP_AND_OWNERSHIP.md` | `ACTIVE` | 문서엔진 콘솔 저작자·권리자 및 적용/제외 범위 |
+| `governance/intellectual-property.yaml` | `ACTIVE` | 소유권·허가·제3자 제외의 기계 판독 계약 |
 | `design/document-editor.md` | `ACTIVE` | Markdown/YAML 편집기 UX·테마 계약 |
 | `roles/development/feature/03_phase-3/01_main_project_dashboard.md` | `ACTIVE` | Dashboard read model·adapter·FSD 구현 계약 |
 | `roles/qa/feature/03_phase-3/01_main_project_dashboard_qa.md` | `ACTIVE` | SCR-01~02·REQ-DASH·responsive 검증 증거 |
@@ -57,6 +59,9 @@
 | `engineering/release-quality-gate.md` | `ACTIVE` | 접근성·반응형·시각·정책·성능 Gate 계약 |
 | `roles/development/feature/10_phase-10/01_release_quality_gate.md` | `ACTIVE` | 공통 상태와 자동 품질 도구 구현 계약 |
 | `roles/qa/feature/10_phase-10/01_release_quality_gate_qa.md` | `ACTIVE` | Phase 10 P0 Matrix와 증거 계약 |
+| `change-management/active/CR-2026-015_free-render-and-ownership.md` | `ACTIVE` | zero-cost 초기 배포와 console-only 권리 경계 변경 |
+| `roles/development/feature/11_free-render-ownership/01_free_render_ownership.md` | `ACTIVE` | free Blueprint·라이선스 다층 구현 계약 |
+| `roles/qa/feature/11_free-render-ownership/01_free_render_ownership_qa.md` | `ACTIVE` | 비용·runtime·소유권 scope 회귀 검증 |
 
 ## 불변 규칙
 
@@ -70,6 +75,8 @@
 - 스타일링은 Astryx의 제공 API와 제품 semantic CSS token을 우선하며 Tailwind CSS는 기본 의존성에 추가하지 않는다.
 - 화면은 `system / light / dark` 테마를 제공하며 사용자 선택과 접근성 대비를 보존한다.
 - 배포는 repository root의 Render Blueprint를 단일 배포 기준으로 사용한다.
+- 초기 시연 배포는 결제 수단 없는 Render free profile과 preview off를 사용하며 유료 자원 생성은 별도 승인 없이는 금지한다.
+- 문서엔진 콘솔의 독창적 소스와 전용 문서는 서동균의 독점 권리 주장 범위이며, APC·회사 공용 규칙·제3자 자산에는 이를 확장하지 않는다.
 - Production 사용자 역할은 검증된 OIDC claim만 신뢰하고 provider token은 브라우저 저장소에 보관하지 않는다.
 - Application rollback과 database recovery는 분리하며 어느 절차도 자동 destructive migration을 수행하지 않는다.
 - 운영 문서 편집은 textarea가 아니라 CodeMirror 6 기반 Markdown/YAML editor를 사용하며 저장 전 schema·revision 검증을 거친다.

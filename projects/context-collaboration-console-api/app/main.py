@@ -1,4 +1,8 @@
-"""FastAPI composition root."""
+"""FastAPI composition root.
+
+Copyright © 2026 서동균 (DongGyun Seo). All Rights Reserved.
+SPDX-License-Identifier: LicenseRef-Proprietary
+"""
 
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager

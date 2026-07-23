@@ -43,4 +43,8 @@ npm run build
 - fixture/HTTP repository 교체 경계, system/light/dark theme
 - Vitest, Testing Library, ESLint, strict TypeScript와 FSD dependency 검사
 
-환경 변수는 `.env.example`을 기준으로 한다. Production에서는 Render Blueprint가 HTTP data source와 인증 필수를 주입하며 secret은 frontend build variable에 두지 않는다.
+환경 변수는 `.env.example`을 기준으로 한다. 현재 Render 무료 초기 배포는 HTTP data source와 인증 비활성 profile을 사용한다. 조직 OIDC가 연결된 production 전환 시에만 인증 필수 profile을 사용하며 secret은 frontend build variable에 두지 않는다.
+
+## Copyright and license
+
+이 패키지의 원본 소스 코드는 서동균(DongGyun Seo)이 작성하고 모든 권리를 유보한 독점 소프트웨어다. 열람·실행·시연은 소유권 이전이나 재사용 허락을 의미하지 않는다. 정확한 범위와 제3자 의존성 제외 조건은 `LICENSE`와 `NOTICE`를 따른다.

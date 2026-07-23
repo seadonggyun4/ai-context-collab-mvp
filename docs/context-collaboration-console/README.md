@@ -13,11 +13,14 @@
 | `design/` | 레퍼런스, 토큰, 화면·반응형·카피 기준 |
 | `engineering/` | 아키텍처, 계약, 구현 단계와 기술 경계 |
 | `governance/` | YAML 기반 상태·권한·문서 스키마 |
+| `AUTHORSHIP_AND_OWNERSHIP.md` | 문서엔진 콘솔의 저작자·권리자, 허가와 제외 범위 |
 | `qa/` | 테스트 전략과 수용 기준 매트릭스 |
 | `change-management/` | 이 프로젝트의 향후 변경 요청 진입점 |
 | `evaluations/` | 대표 사용자 흐름의 반복 평가 기준 |
 
 Phase 10 Release 기준은 `engineering/release-quality-gate.md`가 소유하며, 실행 명령과 수동/운영 evidence의 경계를 함께 정의한다.
+
+저작권과 재사용 허가 경계는 `AUTHORSHIP_AND_OWNERSHIP.md`와 `governance/intellectual-property.yaml`이 소유한다. 이 고지는 문서엔진 콘솔 범위에만 적용되며 저장소의 다른 프로젝트나 제3자 구성요소로 확장하지 않는다.
 
 ## 구현 진입 순서
 
@@ -28,4 +31,4 @@ Phase 10 Release 기준은 `engineering/release-quality-gate.md`가 소유하며
 5. `engineering/implementation-plan.md`의 Phase와 `qa/test-matrix.md`를 함께 수행한다.
 6. release 전 `engineering/release-quality-gate.md`의 정적→unit→build→browser 순서를 통과한다.
 
-실행 코드 위치는 `../../projects/context-collaboration-console/`이다.
+실행 코드 위치는 `../../projects/context-collaboration-console/`, API 위치는 `../../projects/context-collaboration-console-api/`다.

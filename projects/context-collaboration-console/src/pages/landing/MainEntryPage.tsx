@@ -127,7 +127,7 @@ export function MainEntryPage() {
           <div><p>{dashboard.project.name}의 활성 Context, 승인 대기, 정합성 근거와 최근 QA 결과를 확인할 수 있습니다.</p><Link className="primary-link primary-link--light" to={projectRoute}>APC 프로젝트 열기</Link></div>
         </section>
       </main>
-      <footer className="public-footer"><strong>Context Flow</strong><span>변경 문맥 운영</span><small>© 2026 Context Flow</small></footer>
+      <footer className="public-footer"><strong>Context Flow</strong><span>변경 문맥 운영</span><small>© 2026 서동균. All rights reserved.</small></footer>
     </div>
   );
 }

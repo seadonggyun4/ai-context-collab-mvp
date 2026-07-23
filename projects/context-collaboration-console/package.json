@@ -2,6 +2,8 @@
   "name": "context-collaboration-console",
   "private": true,
   "version": "0.1.0",
+  "author": "서동균 (DongGyun Seo)",
+  "license": "UNLICENSED",
   "type": "module",
   "engines": {
     "node": ">=20"

@@ -2,6 +2,8 @@
 name = "context-collaboration-console-api"
 version = "0.1.0"
 description = "Policy-aware API for the Context Collaboration Console."
+authors = [{ name = "서동균 (DongGyun Seo)" }]
+license = { file = "LICENSE" }
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "alembic>=1.16,<2",

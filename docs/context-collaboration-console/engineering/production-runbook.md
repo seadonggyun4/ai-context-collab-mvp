@@ -1,5 +1,7 @@
 # Production Operations Runbook
 
+> 이 runbook은 향후 유료 production profile 전용이다. 현재 활성 Render Blueprint는 결제 없는 초기 시연 profile이며 `engineering/render-deployment.md`를 따른다. 무료 배포 결과를 아래 production·PITR 완료 증거로 사용하지 않는다.
+
 ## 목적과 적용 범위
 
 이 문서는 `context-console-web`, `context-console-api`, `context-console-db`, `context-console-security`의 production release, 관찰, application rollback, PostgreSQL PITR, secret rotation 절차를 정의한다. 명령 실행 전 대상 workspace·service·deploy ID를 두 사람이 확인한다. application rollback은 database rollback을 포함하지 않는다.

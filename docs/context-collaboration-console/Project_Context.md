@@ -89,6 +89,13 @@
 - 조직 OIDC login, server-side session, claim 기반 RBAC, shared rate limit과 production 운영 경계는 포함한다.
 - 실제 IdP application 등록, Render production resource 생성과 PITR/rollback 실행은 운영 승인 후 runbook evidence로 완결한다.
 
+## 저작자·소유권 경계
+
+- 문서엔진 콘솔의 독창적 프론트엔드·백엔드 소스와 전용 문서의 저작자·권리자는 서동균(DongGyun Seo)으로 표시하고 모든 권리를 유보한다.
+- 회사 대상 시연, URL 접근, 저장소 열람과 평가 참여는 권리 이전이나 재사용 라이선스 부여로 해석하지 않는다.
+- 이 권리 주장은 `apc-monitoring-mvp`, 회사 공용 규칙, 제3자 의존성·콘텐츠·상표·자산으로 확장하지 않는다.
+- 세부 적용 path, 허가와 증거 정책은 `AUTHORSHIP_AND_OWNERSHIP.md`와 `governance/intellectual-property.yaml`을 따른다.
+
 ## 제품 표면 카피
 
 - 제품명은 `Context Console`을 작업명으로 사용한다.

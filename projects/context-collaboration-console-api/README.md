@@ -13,6 +13,8 @@ uv run uvicorn app.main:app --reload
 
 필수 환경 변수는 `.env.example`, production 배포·복구 명령은 `docs/context-collaboration-console/engineering/production-runbook.md`를 따른다.
 
+현재 Render 초기 시연 profile은 비용 없는 `APP_ENV=preview`로 실행한다. 무료 Web Service 제약 때문에 start command가 Alembic migration 후 Uvicorn을 시작하며, 조직 OIDC·PITR·persistent Key Value가 필요한 production profile과 완료 증거를 분리한다.
+
 ## Production authentication
 
 - `GET /api/v1/auth/login`, `GET /api/v1/auth/callback`: OIDC Authorization Code + PKCE S256
@@ -48,3 +50,7 @@ uv run pytest
 ```
 
 Production read-only smoke는 `uv run python -m app.scripts.production_smoke --web-url ... --api-url ...`로 실행한다.
+
+## Copyright and license
+
+이 패키지의 원본 소스 코드는 서동균(DongGyun Seo)이 작성하고 모든 권리를 유보한 독점 소프트웨어다. 열람·실행·시연은 소유권 이전이나 재사용 허락을 의미하지 않는다. 정확한 범위와 제3자 의존성 제외 조건은 `LICENSE`와 `NOTICE`를 따른다.

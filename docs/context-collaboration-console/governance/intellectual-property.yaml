@@ -1,0 +1,41 @@
+version: 1
+status: active
+effective_at: 2026-07-23
+owner:
+  name_ko: 서동균
+  name_en: DongGyun Seo
+rights:
+  copyright: exclusive_asserted
+  reservation: all_rights_reserved
+  license: LicenseRef-Proprietary
+scope:
+  included:
+    - render.yaml
+    - projects/context-collaboration-console/**
+    - projects/context-collaboration-console-api/**
+    - docs/context-collaboration-console/**
+  excluded:
+    - docs/apc-monitoring-mvp/**
+    - projects/apc-monitoring-mvp/**
+    - docs/organization-standards/**
+    - third-party dependencies and their source code
+    - third-party content, data, trademarks, and assets
+permissions:
+  demonstration:
+    allowed: true
+    transfers_ownership: false
+    grants_reuse_license: false
+  copy_modify_distribute_commercialize:
+    allowed: false
+    exception: prior written permission from the owner
+evidence:
+  source_history: private Git repository commit history
+  package_notices:
+    - projects/context-collaboration-console/LICENSE
+    - projects/context-collaboration-console/NOTICE
+    - projects/context-collaboration-console-api/LICENSE
+    - projects/context-collaboration-console-api/NOTICE
+legal_boundary:
+  statement: >-
+    이 정책은 권리자의 저작권 및 소유권 주장을 기록하고 재사용 허가 범위를 제한한다.
+    실제 권리 귀속은 적용 법률, 근로계약, 취업규칙과 별도 계약의 영향을 받을 수 있다.
