@@ -52,9 +52,9 @@
 | `roles/qa/feature/07_phase-7/01_review_verification_qa.md` | `ACTIVE` | SCR-08·REQ-REVIEW·REQ-VERIFY·서버 권한 검증 증거 |
 | `roles/development/feature/08_phase-8/01_git_context_activation.md` | `ACTIVE` | Git publication port·revision lock·ContextVersion·SCR-09 구현 계약 |
 | `roles/qa/feature/08_phase-8/01_git_context_activation_qa.md` | `ACTIVE` | SCR-09·REQ-VERIFY-003·sandbox Git·활성화 검증 증거 |
-| `roles/development/feature/09_phase-9/01_production_operations.md` | `ACTIVE` | OIDC·session·rate limit·observability·production 배포 구현 계약 |
-| `roles/qa/feature/09_phase-9/01_production_operations_qa.md` | `ACTIVE` | 인증·운영·Blueprint·smoke·복구 검증 계약 |
-| `engineering/production-runbook.md` | `ACTIVE` | release·관찰·rollback·PITR·secret rotation 운영 절차 |
+| `roles/development/feature/09_phase-9/01_production_operations.md` | `DEFERRED` | 과거 OIDC·session 설계 기록; CR-2026-017에 따라 현재 runtime에서 비활성 |
+| `roles/qa/feature/09_phase-9/01_production_operations_qa.md` | `DEFERRED` | identity 도입 재승인 시 재검토할 과거 QA 계약 |
+| `engineering/production-runbook.md` | `REFERENCE` | release·관찰·rollback 절차 참고; OIDC 절차는 현재 활성 범위 아님 |
 | `change-management/active/CR-2026-014_phase-10-release-quality.md` | `ACTIVE` | Phase 10 품질·Release Gate 변경 기준 |
 | `engineering/release-quality-gate.md` | `ACTIVE` | 접근성·반응형·시각·정책·성능 Gate 계약 |
 | `roles/development/feature/10_phase-10/01_release_quality_gate.md` | `ACTIVE` | 공통 상태와 자동 품질 도구 구현 계약 |
@@ -63,6 +63,7 @@
 | `roles/development/feature/11_free-render-ownership/01_free_render_ownership.md` | `ACTIVE` | free Blueprint·라이선스 다층 구현 계약 |
 | `roles/qa/feature/11_free-render-ownership/01_free_render_ownership_qa.md` | `ACTIVE` | 비용·runtime·소유권 scope 회귀 검증 |
 | `change-management/active/CR-2026-016_render-fixture-hotfix.md` | `ACTIVE` | 초기 Render 시연 data source 계약 복구 |
+| `change-management/active/CR-2026-017_theme-motion-auth-scope.md` | `VERIFIED_LOCAL` | semantic theme, Three.js landing, frontend 인증 범위 재정렬 |
 
 ## 불변 규칙
 
@@ -78,7 +79,8 @@
 - 배포는 repository root의 Render Blueprint를 단일 배포 기준으로 사용한다.
 - 초기 시연 배포는 결제 수단 없는 Render free profile과 preview off를 사용하며 유료 자원 생성은 별도 승인 없이는 금지한다.
 - 문서엔진 콘솔의 독창적 소스와 전용 문서는 서동균의 독점 권리 주장 범위이며, APC·회사 공용 규칙·제3자 자산에는 이를 확장하지 않는다.
-- Production 사용자 역할은 검증된 OIDC claim만 신뢰하고 provider token은 브라우저 저장소에 보관하지 않는다.
+- 현재 릴리스는 login/session UI 없이 console에 직접 진입한다. 실제 사용자 OIDC·identity RBAC는 별도 변경 승인 전까지 구현 범위에서 제외한다.
+- 승인·검증·self-approval 차단은 로그인 기능이 아니라 workflow 업무 규칙이므로 fixture actor 기준으로 유지한다.
 - Application rollback과 database recovery는 분리하며 어느 절차도 자동 destructive migration을 수행하지 않는다.
 - 운영 문서 편집은 textarea가 아니라 CodeMirror 6 기반 Markdown/YAML editor를 사용하며 저장 전 schema·revision 검증을 거친다.
 - data-bound 화면은 일곱 공통 상태를 사용하고 접근성·4개 viewport·시각·정책·성능 Gate를 통과하기 전 release하지 않는다.

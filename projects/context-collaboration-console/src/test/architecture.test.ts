@@ -60,4 +60,9 @@ describe("FSD architecture", () => {
     const violations = files.filter((file) => /@(domain|adapters)\//.test(readFileSync(file, "utf8")));
     expect(violations.map((file) => relative(sourceRoot, file))).toEqual([]);
   });
+
+  it("contains no frontend login or session boundary", () => {
+    const violations = files.filter((file) => /@entities\/auth|auth-boundary|VITE_AUTH_REQUIRED|authenticatedFetch/u.test(readFileSync(file, "utf8")));
+    expect(violations.map((file) => relative(sourceRoot, file))).toEqual([]);
+  });
 });

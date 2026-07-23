@@ -32,8 +32,8 @@ API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `root
 
 ## 초기 시연 런타임
 
-- frontend는 `VITE_DATA_SOURCE=fixture`, `VITE_AUTH_REQUIRED=false`로 시연 흐름을 결정론적으로 제공한다. Dashboard·analysis·impact HTTP endpoint가 모두 준비되기 전에는 `http`로 전환하지 않는다.
-- API는 `APP_ENV=preview`를 사용하므로 조직 OIDC secret 없이 비운영 actor adapter를 사용한다.
+- frontend는 `VITE_DATA_SOURCE=fixture`로 시연 흐름을 결정론적으로 제공한다. 현재 릴리스에는 frontend login/session build flag가 없다. Dashboard·analysis·impact HTTP endpoint가 모두 준비되기 전에는 `http`로 전환하지 않는다.
+- API는 `APP_ENV=preview`를 사용하며 workflow evidence용 비운영 actor adapter를 사용한다. 이 actor는 로그인 사용자를 의미하지 않는다.
 - 무료 Web Service는 `preDeployCommand`를 지원하지 않는다. 단일 free instance의 `startCommand`에서 `alembic upgrade head` → idempotent APC demo seed → Uvicorn 순서로 시작한다.
 - seed는 `APP_ENV=preview` 무료 시연 profile에만 포함한다. 향후 production start/pre-deploy에는 seed를 포함하지 않는다.
 - Web Service filesystem은 ephemeral이다. 문서 수정의 remote push는 수행하지 않으며 DB/KV 상태는 무료 플랜 제약을 따른다.
@@ -41,7 +41,7 @@ API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `root
 | Key | 초기 시연 계약 | Secret |
 | --- | --- | --- |
 | `VITE_API_BASE_URL` | Render API HTTPS origin | 아니오 |
-| `VITE_DATA_SOURCE`, `VITE_AUTH_REQUIRED` | `fixture`, `false` | 아니오 |
+| `VITE_DATA_SOURCE` | `fixture` | 아니오 |
 | `APP_ENV`, `LOG_LEVEL` | `preview`, `INFO` | 아니오 |
 | `DATABASE_URL` | Blueprint free Postgres connection reference | 예, 자동 연결 |
 | `SECURITY_STORE_URL` | Blueprint free Key Value connection reference | 예, 자동 연결 |
@@ -60,7 +60,7 @@ Schema 검증은 문법·필드 형태만 확인한다. Render CLI workspace 검
 
 ## Production 전환 경계
 
-조직 OIDC, fail-closed production auth, persistent session/rate state, backup/PITR, pre-deploy migration, 무중단 운영이 필요해지면 `production-runbook.md`의 유료 profile로 별도 변경한다. 무료 초기 배포를 production 완료 증거로 사용하지 않는다.
+조직 OIDC·identity RBAC를 도입하거나 persistent state, backup/PITR, pre-deploy migration, 무중단 운영이 필요해지면 별도 Change Manifest와 `production-runbook.md`의 유료 profile로 전환한다. 무료 초기 배포를 production 완료 증거로 사용하지 않는다.
 
 ## 공식 참고
 

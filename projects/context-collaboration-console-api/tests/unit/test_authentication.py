@@ -181,12 +181,7 @@ async def test_production_session_csrf_logout_and_security_headers(
         assert project.headers["x-content-type-options"] == "nosniff"
         assert project.headers["strict-transport-security"].startswith("max-age=31536000")
 
-        me = await client.get("/api/v1/auth/me")
-        assert me.json()["principal"] == {
-            "actorId": "oidc-actor-01",
-            "displayName": "운영 관리자",
-            "role": "admin",
-        }
+        assert (await client.get("/api/v1/auth/me")).status_code == 404
         no_csrf = await client.post(
             "/api/v1/changes/CR-DEMO-001/activations",
             json={"projectId": "apc-monitoring-mvp", "version": "context-v2", "documentIds": ["DOC-1"]},
@@ -195,9 +190,8 @@ async def test_production_session_csrf_logout_and_security_headers(
         assert no_csrf.status_code == 403
         assert no_csrf.json()["code"] == "CSRF_TOKEN_INVALID"
 
-        logged_out = await client.post("/api/v1/auth/logout", headers={"X-CSRF-Token": session.csrf_token})
-        assert logged_out.status_code == 204
-        assert (await client.get("/api/v1/auth/me")).status_code == 401
+        unavailable_logout = await client.post("/api/v1/auth/logout", headers={"X-CSRF-Token": session.csrf_token})
+        assert unavailable_logout.status_code == 404
 
 
 async def test_shared_rate_limit_returns_retry_after(container: ApplicationContainer) -> None:

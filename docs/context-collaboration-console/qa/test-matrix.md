@@ -39,14 +39,14 @@
 | QA-BE-01 | REQ-BE-001 | 미권한·self approval mutation | 서버 거부와 audit 기록 | P0 |
 | QA-BE-02 | backend reliability | 동일 idempotency key 재요청 | 중복 change/evidence 생성 없음 | P0 |
 | QA-DEPLOY-01 | REQ-DEPLOY-001 | Render preview deploy | SPA route, API health, DB migration, CORS 통과 | P0 |
-| QA-AUTH-01 | REQ-AUTH-001 | OIDC login/callback 반례 | PKCE S256, state one-time, nonce·issuer·audience·expiry, open redirect 차단 | P0 |
-| QA-AUTH-02 | REQ-AUTH-002 | anonymous/header spoof/CSRF/self-approval | 401/403과 서버 claim 기반 RBAC, logout·expiry 후 재로그인 | P0 |
+| QA-AUTH-01 | CR-2026-017 | 현재 인증 표면 검사 | login/logout/avatar UI와 `/api/v1/auth/*` OpenAPI path 0건 | P0 |
+| QA-AUTH-02 | REQ-AUTH-001~002 | OIDC·session·identity RBAC | 후속 Change Manifest 전까지 실행하지 않음 | DEFERRED |
 | QA-OPS-01 | REQ-OPS-001 | instance 공유 limit와 access log | 429·Retry-After, 동일 request ID, token/cookie/body 미기록 | P0 |
 | QA-OPS-02 | REQ-OPS-002 | production read-only smoke | web, SPA, live, DB·migration·Key Value ready, auth fail-closed | P0 |
 | QA-RECOVERY-01 | REQ-RECOVERY-001 | rollback/PITR drill | 격리 복구·검증·전환과 artifact-only rollback 증거 | P0 |
 | QA-QUALITY-01 | REQ-QUALITY-001 | 7개 data state | taxonomy, live region, recovery와 classifier 일치 | P0 |
 | QA-QUALITY-02 | REQ-QUALITY-002 | 1280/1024/768/390px route | 가로 overflow 0, 핵심 content 접근 | P0 |
 | QA-QUALITY-03 | REQ-A11Y-001 | light/dark dashboard/editor axe·keyboard | WCAG A/AA violation 0, skip/editor focus 유지 | P0 |
-| QA-QUALITY-04 | REQ-VISUAL-001 | 4개 승인 snapshot 비교 | dashboard/editor 양 theme 의도하지 않은 diff 0 | P0 |
+| QA-QUALITY-04 | REQ-VISUAL-001 | 6개 승인 snapshot 비교 | landing/dashboard/editor 양 theme 의도하지 않은 diff 0 | P0 |
 | QA-QUALITY-05 | REQ-POLICY-001 | production source scan | 금지 카피·gradient/glass/glow/radius 0 | P0 |
 | QA-QUALITY-06 | REQ-PERF-001 | production gzip asset 검사 | versioned budget 이내 | P0 |

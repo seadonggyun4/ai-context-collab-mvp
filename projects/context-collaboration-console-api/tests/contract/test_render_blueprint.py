@@ -27,7 +27,7 @@ def test_blueprint_defines_zero_cost_initial_deployment() -> None:
 
     assert web["autoDeployTrigger"] == "checksPass"
     assert next(item for item in web["envVars"] if item["key"] == "VITE_DATA_SOURCE")["value"] == "fixture"
-    assert next(item for item in web["envVars"] if item["key"] == "VITE_AUTH_REQUIRED")["value"] == "false"
+    assert all(item["key"] != "VITE_AUTH_REQUIRED" for item in web["envVars"])
 
     api = services["context-console-api"]
     assert api["runtime"] == "python"

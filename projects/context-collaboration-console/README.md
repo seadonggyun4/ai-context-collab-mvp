@@ -39,11 +39,12 @@ npm run build
 - 접근 가능한 영향 그래프와 관계 목록
 - semantic/raw diff, 승인·검증 evidence, 완료 gate와 audit
 - revision-locked Git publication, commit-linked evidence와 Context 활성화 결과
-- OIDC server session boundary, CSRF transport, session expiry와 login/logout 상태
+- 별도 로그인 없이 바로 진입하는 현재 시연 profile
 - fixture/HTTP repository 교체 경계, system/light/dark theme
+- WebGL 기반 변경·문맥·검증 관계 시각화와 reduced-motion fallback
 - Vitest, Testing Library, ESLint, strict TypeScript와 FSD dependency 검사
 
-환경 변수는 `.env.example`을 기준으로 한다. 현재 Render 무료 초기 배포는 HTTP data source와 인증 비활성 profile을 사용한다. 조직 OIDC가 연결된 production 전환 시에만 인증 필수 profile을 사용하며 secret은 frontend build variable에 두지 않는다.
+환경 변수는 `.env.example`을 기준으로 한다. 현재 Render 무료 초기 배포는 HTTP data source와 인증 없는 profile을 사용한다. 로그인·사용자 avatar·identity 기반 route guard는 현재 제품 범위가 아니며 후속 승인 전에는 frontend bundle에 포함하지 않는다.
 
 ## Copyright and license
 

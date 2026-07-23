@@ -86,8 +86,10 @@
 
 - 문서 원본 편집, revision 충돌 감지, schema 검증과 승인 제안 생성은 backend 연동 범위에 포함한다.
 - 자유로운 repository 전체 코드 편집은 계속 제외한다. 편집 대상은 프로젝트 문서 정책으로 허용된 Markdown/YAML path다.
-- 조직 OIDC login, server-side session, claim 기반 RBAC, shared rate limit과 production 운영 경계는 포함한다.
-- 실제 IdP application 등록, Render production resource 생성과 PITR/rollback 실행은 운영 승인 후 runbook evidence로 완결한다.
+- 현재 릴리스는 login/session/account UI 없이 console에 직접 진입한다.
+- 승인·검증·self-approval 차단은 fixture actor를 사용하는 업무 규칙으로 유지한다.
+- 조직 OIDC, 실제 사용자 claim 기반 RBAC와 IdP application 등록은 별도 Change Manifest 승인 전까지 후속 범위다.
+- Render production resource 생성과 PITR/rollback 실행은 운영 승인 후 runbook evidence로 완결한다.
 
 ## 저작자·소유권 경계
 

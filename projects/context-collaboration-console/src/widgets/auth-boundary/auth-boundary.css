@@ -1,9 +1,0 @@
-@layer product {
-  .auth-boundary { min-height: 100vh; display: grid; place-items: center; padding: 28px; background: var(--product-canvas); }
-  .auth-boundary > section, .auth-boundary > div { width: min(100%, 520px); border-top: 3px solid var(--product-primary); padding-top: 32px; }
-  .auth-boundary__label { margin: 32px 0 10px; color: var(--product-primary-strong); font-size: 11px; font-weight: 800; letter-spacing: .12em; }
-  .auth-boundary h1 { margin: 0; font-size: clamp(32px, 6vw, 52px); line-height: 1.08; letter-spacing: -.045em; }
-  .auth-boundary h1 + p { margin: 22px 0 28px; max-width: 48ch; color: var(--product-muted); line-height: 1.7; }
-  .auth-boundary a, .auth-boundary button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; border: 1px solid var(--product-primary); border-radius: 3px; padding: 0 22px; background: var(--product-primary); color: var(--product-action-foreground); font-weight: 750; }
-  .auth-boundary small { display: block; margin-top: 24px; color: var(--product-muted); line-height: 1.5; }
-}

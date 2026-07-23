@@ -42,10 +42,6 @@ def verify_release(client: httpx.Client, *, web_url: str, api_url: str) -> tuple
         raise RuntimeError(f"api-ready dependency contract failed: {payload!r}")
     checks.append(SmokeCheck("api-ready-db-security", str(ready.url), "ok"))
 
-    session = client.get(api_url.rstrip("/") + "/api/v1/auth/me")
-    if session.status_code != 401 or session.json().get("code") != "AUTHENTICATION_REQUIRED":
-        raise RuntimeError("anonymous auth boundary did not fail closed")
-    checks.append(SmokeCheck("anonymous-auth-boundary", str(session.url), "ok"))
     return tuple(checks)
 
 
@@ -59,9 +55,7 @@ def _get(client: httpx.Client, url: str, name: str) -> httpx.Response:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Verify the production web, API, DB, security store, and auth boundary"
-    )
+    parser = argparse.ArgumentParser(description="Verify the production web, API, database, and security store")
     parser.add_argument("--web-url", required=True, help="Public HTTPS URL of the Render Static Site")
     parser.add_argument("--api-url", required=True, help="Public HTTPS URL of the Render API Web Service")
     parser.add_argument("--timeout", type=float, default=10.0)

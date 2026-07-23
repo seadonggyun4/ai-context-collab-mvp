@@ -9,7 +9,7 @@
   .proposal-header dd { margin: 0; font-weight: 700; }
   .proposal-header__actions { display: flex; gap: 9px; }
   .proposal-header__actions a { min-height: 42px; padding: 0 17px; display: inline-flex; align-items: center; border: 1px solid var(--product-line-strong); border-radius: 4px; background: var(--product-surface); font-size: 12px; font-weight: 700; }
-  .proposal-header__actions .proposal-primary-action { border-color: var(--product-primary); background: var(--product-primary); color: var(--product-action-foreground); }
+  .proposal-header__actions .proposal-primary-action { border-color: var(--product-action-surface); background: var(--product-action-surface); color: var(--product-action-foreground); }
   .proposal-section { padding: 27px 29px; background: var(--product-surface); }
   .proposal-section__title { margin-bottom: 20px; }
   .proposal-section__title h2 { margin: 0 0 5px; font-size: 18px; }

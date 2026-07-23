@@ -3,9 +3,13 @@
 ## Truthound 한국어 메인
 
 - 참조 대상: `https://truthound.com/ko`
-- 적용 범위: 메인 진입 화면의 section 순서, 타이포그래피 중심 계층, 제품 workflow를 실제 화면 맥락으로 보여주는 방식, 절제된 CTA 리듬.
-- 적용하지 않는 것: Truthound 브랜드명, 로고, 일러스트·이미지 자산, 카피, 제품별 기능 주장, 그대로 복제한 색상.
-- 확인 한계: 현재 자동 조사 환경에서 페이지의 시각 캡처를 안정적으로 확보하지 못했다. 구현 전 브라우저에서 desktop/mobile 캡처를 확보하고 Publishing review를 거쳐야 `reference-locked`로 판정한다.
+- 로컬 기준 소스: `Truthound-project/truthound-depot/frontend/src/features/public-home/`.
+- 확인한 구조: full-bleed WebGL hero → 운영 수치 → copy/visual이 교차하는 3개 feature section → compact feature grid → closing action.
+- 확인한 motion: hero reveal, viewport 1회 reveal, radial burst, rotating point globe, falling evidence stream.
+- performance 기준: scene viewport 진입 시 mount/run, document hidden 시 중지, reduced motion 정지 프레임, device pixel ratio 제한.
+- 적용 범위: section rhythm, 타이포그래피 중심 계층, 실제 workflow를 시각화하는 canvas, 절제된 CTA와 motion lifecycle.
+- 적용하지 않는 것: Truthound 브랜드명·로고·카피·색상·GLSL 원문·제3자 이미지/visual asset.
+- Context Console은 동일 motion class를 새 geometry/shader와 teal 중심 제품 palette로 구현한다.
 
 ## Astryx
 
@@ -28,10 +32,10 @@
 - https://www.ibm.com/think/topics/internal-developer-platform
 - https://truthound.netlify.app/en/ai/prompt-hardening/
 
-## 구현 전 Reference Lock Checklist
+## Reference Lock Checklist
 
-- [ ] Truthound `/ko` desktop 1440px 전체 페이지 캡처
-- [ ] Truthound `/ko` mobile 390px 전체 페이지 캡처
-- [ ] header, hero, proof/workflow, product visual, closing CTA의 spacing과 alignment 기록
-- [ ] 복제 가능한 구조와 복제 금지 브랜드 요소 분리
-- [ ] 최종 primary와 contrast 검증
+- [x] Truthound `/ko` desktop 실행 화면과 hero/3개 scene 확인
+- [x] header, hero, proof/workflow, product visual, closing CTA의 spacing과 alignment 기록
+- [x] 복제 가능한 동작 원리와 복제 금지 브랜드 요소 분리
+- [ ] Context Console 1440/390px 양 테마 시각 QA
+- [ ] 최종 primary/action/status contrast 검증

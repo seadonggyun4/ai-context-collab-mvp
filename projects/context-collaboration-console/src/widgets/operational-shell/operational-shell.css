@@ -6,11 +6,6 @@
   .operational-topbar__project span { font-size: 12px; color: var(--product-muted); }
   .operational-topbar__project strong { font-size: 14px; }
   .operational-topbar__actions { display: flex; align-items: center; gap: 14px; }
-  .user-session { display: flex; align-items: center; gap: 8px; }
-  .user-avatar { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--product-surface-muted); font-size: 11px; font-weight: 800; }
-  .user-session__logout { border: 0; background: transparent; color: var(--product-muted); padding: 6px 2px; font-size: 12px; font-weight: 650; }
-  .user-session__logout:hover { color: var(--product-ink); }
-  .user-session__logout:focus-visible { outline: 2px solid var(--product-focus); outline-offset: 3px; }
   .operational-sidebar { background: var(--product-surface); border-right: 1px solid var(--product-line); padding: 24px 14px 20px; display: flex; flex-direction: column; justify-content: space-between; }
   .operational-sidebar nav { display: flex; flex-direction: column; gap: 4px; }
   .operational-sidebar nav a { padding: 11px 12px; border-radius: 3px; color: var(--product-muted); font-size: 14px; font-weight: 600; white-space: nowrap; }
@@ -35,7 +30,5 @@
     .operational-topbar { grid-template-columns: auto 1fr; }
     .operational-topbar__actions { justify-self: end; }
     .operational-topbar .theme-switcher select { max-width: 100px; }
-    .user-session { gap: 5px; }
-    .user-session__logout { padding-inline: 0; font-size: 11px; }
   }
 }

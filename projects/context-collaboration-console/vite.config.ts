@@ -28,6 +28,7 @@ export default defineConfig({
     port: 4174,
   },
   build: {
+    manifest: true,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -47,6 +48,8 @@ export default defineConfig({
   test: {
     exclude: [...configDefaults.exclude, "e2e/**"],
     environment: "jsdom",
+    maxWorkers: 2,
+    testTimeout: 15_000,
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
     css: true,

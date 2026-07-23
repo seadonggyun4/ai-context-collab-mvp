@@ -7,8 +7,8 @@ describe("AppRouter", () => {
   it("renders the complete public entry narrative", async () => {
     renderWithProviders(<AppRouter />);
     expect(await screen.findByRole("heading", { name: /변경의 이유부터.*검증 결과까지/ })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /빠르게 제안하고/ })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /필요한 문맥만 다르게/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /한 문장의 변경을.*검토 가능한 제안으로/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /같은 변경을 보되.*필요한 문맥은 다르게/ })).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: "APC 프로젝트 열기" })).toHaveLength(2);
   });
 

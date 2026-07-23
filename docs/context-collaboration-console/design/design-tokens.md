@@ -26,14 +26,28 @@ primary는 신뢰·통제·안정감을 주되 흔한 SaaS blue와 AI purple을 
 
 | Semantic token | Light | Dark | 목적 |
 | --- | --- | --- | --- |
-| `canvas` | `#F7F8FA` | `#101514` | app background |
-| `surface` | `#FFFFFF` | `#171E1D` | primary workspace |
-| `surface.subtle` | `#F0F4F2` | `#1E2826` | grouped region |
-| `text.primary` | `#17202A` | `#F1F5F4` | heading/body emphasis |
-| `text.secondary` | `#667085` | `#A9B5B2` | metadata |
-| `border` | `#D9DEE7` | `#34413E` | meaningful boundary |
-| `primary` | `#115E59` | `#5FC2B7` | primary action/selection |
-| `focus` | `#0F766E` | `#7DD3C7` | keyboard focus |
+| `canvas` | `#F5F7F6` | `#0D1211` | app background |
+| `surface` | `#FFFFFF` | `#151B1A` | primary workspace |
+| `surface.subtle` | `#EEF3F1` | `#1B2422` | grouped region |
+| `surface.muted` | `#E2E9E6` | `#25302D` | disabled/quiet region |
+| `text.primary` | `#16211F` | `#F1F5F4` | heading/body emphasis |
+| `text.secondary` | `#5F6B68` | `#AAB7B3` | metadata |
+| `border` | `#D8E0DD` | `#34423E` | meaningful boundary |
+| `border.strong` | `#C3CFCA` | `#4A5B56` | active/strong boundary |
+| `primary` | `#115E59` | `#67C7BC` | text link, selection, data accent |
+| `primary.strong` | `#0B4945` | `#8ADBD1` | emphasized accent |
+| `primary.soft` | `#DFF3EF` | `#193D39` | selected/subtle accent surface |
+| `action.surface` | `#115E59` | `#67C7BC` | solid primary action background |
+| `action.foreground` | `#FFFFFF` | `#082B28` | solid primary action text |
+| `focus` | `#0F766E` | `#8ADBD1` | keyboard focus ring |
+| `status.success` | `#207A4B` | `#6BD59A` | passed/active |
+| `status.warning` | `#946000` | `#F1C46B` | pending/partial |
+| `status.danger` | `#B42318` | `#FF8A80` | failed/rejected |
+| `status.info` | `#365E91` | `#8FB9EA` | informational |
+
+`primary`와 `action.surface`는 현재 값이 같더라도 역할을 합치지 않는다. dark theme에서 밝은 primary action 배경 위에는 반드시 `action.foreground`를 사용한다. selector별 `!important` 보정이나 theme 내부에서 특정 컴포넌트 목록을 열거하는 방식은 금지한다.
+
+Landing WebGL palette는 theme token에서 파생한 teal/sage/gold 계열만 사용한다. canvas가 전달하는 상태와 관계는 같은 section의 HTML 제목·설명·label로도 완전히 이해할 수 있어야 한다.
 
 상태색과 diff색은 dark surface에서 별도 대비 검증 후 확정한다. opacity만 낮춰 light token을 재사용하지 않는다. native control과 scrollbar에는 적용 mode에 맞는 `color-scheme`을 지정한다.
 
@@ -59,7 +73,7 @@ primary는 신뢰·통제·안정감을 주되 흔한 SaaS blue와 AI purple을 
 - control radius 6px, surface radius 8px, dialog 10px, 최대 12px.
 - 기본 surface는 shadow 없음. overlay/dialog에만 낮은 elevation.
 - border는 input, table, diff, selected group처럼 경계가 기능일 때만 사용.
-- glass, blur, glow, gradient mesh 금지. 단색 또는 미세한 tonal surface 사용.
+- 제품 UI의 glass, CSS blur, neon glow, 장식용 CSS gradient mesh는 금지한다. public landing의 승인된 WebGL color field는 canvas 내부 시각화로 한정한다.
 
 ## Button hierarchy
 

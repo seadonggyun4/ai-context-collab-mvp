@@ -4,7 +4,6 @@ import { MemoryRouter } from "react-router-dom";
 
 import { ActivationRepositoryProvider, createFixtureActivationRepository } from "@entities/activation";
 import { AnalysisRepositoryProvider, createFixtureAnalysisRepository } from "@entities/analysis";
-import { AuthProvider, fixtureAuthRepository } from "@entities/auth";
 import { createFixtureDocumentRepository, DocumentRepositoryProvider } from "@entities/document";
 import { createFixtureImpactRepository, ImpactRepositoryProvider } from "@entities/impact";
 import { fixtureProjectRepository, ProjectRepositoryProvider } from "@entities/project";
@@ -17,7 +16,7 @@ export function renderWithProviders(element: ReactElement, initialEntries = ["/"
   const impactRepository = createFixtureImpactRepository();
   const reviewWorkspaceRepository = createFixtureReviewWorkspaceRepository();
   function Wrapper({ children }: PropsWithChildren) {
-    return <ProductThemeProvider><AuthProvider repository={fixtureAuthRepository} required={false}><MemoryRouter initialEntries={initialEntries}><ProjectRepositoryProvider repository={fixtureProjectRepository}><AnalysisRepositoryProvider repository={analysisRepository}><DocumentRepositoryProvider repository={documentRepository}><ImpactRepositoryProvider repository={impactRepository}><ReviewWorkspaceRepositoryProvider repository={reviewWorkspaceRepository}><ActivationRepositoryProvider repository={createFixtureActivationRepository()}>{children}</ActivationRepositoryProvider></ReviewWorkspaceRepositoryProvider></ImpactRepositoryProvider></DocumentRepositoryProvider></AnalysisRepositoryProvider></ProjectRepositoryProvider></MemoryRouter></AuthProvider></ProductThemeProvider>;
+    return <ProductThemeProvider><MemoryRouter initialEntries={initialEntries}><ProjectRepositoryProvider repository={fixtureProjectRepository}><AnalysisRepositoryProvider repository={analysisRepository}><DocumentRepositoryProvider repository={documentRepository}><ImpactRepositoryProvider repository={impactRepository}><ReviewWorkspaceRepositoryProvider repository={reviewWorkspaceRepository}><ActivationRepositoryProvider repository={createFixtureActivationRepository()}>{children}</ActivationRepositoryProvider></ReviewWorkspaceRepositoryProvider></ImpactRepositoryProvider></DocumentRepositoryProvider></AnalysisRepositoryProvider></ProjectRepositoryProvider></MemoryRouter></ProductThemeProvider>;
   }
   return render(element, { wrapper: Wrapper });
 }

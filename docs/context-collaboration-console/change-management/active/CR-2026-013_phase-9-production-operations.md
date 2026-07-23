@@ -5,12 +5,14 @@
 | 항목 | 값 |
 | --- | --- |
 | Change ID | `CR-2026-013` |
-| 현재 상태 | `IMPLEMENTED` |
-| 현재 Phase | `QA / EXTERNAL_OPERATION_GATE` |
+| 현재 상태 | `SUPERSEDED / DEFERRED` |
+| 현재 Phase | `REFERENCE_ONLY` |
 | 요청일 | `2026-07-23` |
 | 요청자 | 사용자 |
 | 위험도 | 높음 |
 | 승인 상태 | `APPROVED` |
+
+> `CR-2026-017`이 현재 인증 범위를 대체한다. 이 문서의 OIDC, session, identity RBAC, 로그인 UI 결정은 현재 릴리스에서 활성화하지 않으며 별도 변경 승인 전까지 참고 구현으로만 보존한다.
 
 ## 요청 원문
 

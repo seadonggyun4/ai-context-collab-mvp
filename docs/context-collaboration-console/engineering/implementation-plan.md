@@ -192,25 +192,23 @@
 - 1265px light와 390px dark publication→activation browser QA, horizontal overflow 0건
 - remote provider PR·push는 provider credential과 repository policy가 필요한 외부 integration 경계로 유지
 
-## Phase 9 — authentication, operations, and production deployment
+## Phase 9 — operations and production deployment
 
-상태: `LOCAL_COMPLETE / EXTERNAL_GATE_PENDING` — 2026-07-23
+상태: `IDENTITY_DEFERRED / OPERATIONS_REFERENCE` — 2026-07-23, CR-2026-017
 
-- provider-neutral Principal/OIDC flow/server session domain과 application port
-- OIDC discovery·Authorization Code+PKCE S256·signed ID token/JWKS adapter
-- Redis-compatible TTL session/one-time flow/atomic rate-limit adapter와 dependency readiness
-- production auth·CSRF·trusted RBAC·security header·request ID·structured access/denial middleware
-- FSD Auth entity, credentialed/CSRF fetch, session expiry event, protected boundary와 login/logout UX
+- OIDC/session 구현 기록은 후속 identity 도입 검토 자료로 보존하되 API route와 frontend runtime에서는 비활성화
+- frontend Auth entity, credentialed/CSRF fetch, protected boundary와 login/logout UX 제거
+- shared rate limit, dependency readiness, security header, request ID와 structured log는 인증과 분리해 유지
 - paid PostgreSQL·persistent Key Value·secret 분리를 갖는 Render production Blueprint
 - pinned GitHub Actions quality gate, read-only production smoke, application rollback/PITR/rotation runbook
 
-로컬 완료 조건:
+현재 릴리스 조건:
 
-- frontend 29 files/88 tests, lint/typecheck/build와 desktop/mobile 양 theme browser QA
-- backend 53 tests verified including isolated PostgreSQL migration/seed/readiness/API, Ruff/format/mypy, 공식 Render JSON Schema와 smoke/CI contract
-- 실제 IdP/Render resource를 만들거나 production 데이터를 변경하지 않은 상태에서 fail-closed 반례 통과
+- 로그인·로그아웃·session-expired UI, frontend auth provider와 `/api/v1/auth/*` OpenAPI path 0건
+- workflow actor·permission guard는 identity claim이 아니라 deterministic 업무 정책으로 계속 검증
+- identity 재도입은 별도 Change Manifest, 위협 모델과 IdP 운영 승인이 선행
 
-외부 완료 조건:
+후속 identity 재도입 조건:
 
 - 승인된 Render workspace semantic validation과 Blueprint sync
 - IdP callback/group 등록, test tenant 역할별 login
@@ -224,17 +222,17 @@
 - `loading / empty / error / permission / stale / offline / conflict` 공통 taxonomy와 DomainError classifier
 - WCAG 2.2 A/AA axe, skip link·keyboard·target size와 reduced motion/forced colors 계약
 - 1280/1024/768/390px reflow와 dashboard/editor horizontal overflow 검사
-- dashboard light/dark, editor Porcelain/Dracula Playwright visual baseline
+- landing/dashboard light/dark, editor Porcelain/Dracula Playwright visual baseline
 - 금지 카피·gradient/glass/glow/12px 초과 radius source policy Gate
 - versioned production gzip asset budget과 CI browser report
 
 로컬 완료 조건:
 
-- frontend ESLint/TypeScript 오류 0, 30 files/104 Vitest tests 통과
-- 11 Playwright tests: 4 viewport, light/dark axe, keyboard, mobile editor reflow, 4 visual snapshots 통과
-- production source 191 files policy violation 0
-- production build 2,159 modules와 JS/CSS/raw asset 예산 통과
-- 실제 브라우저 1280 dark dashboard·390 dark editor 시각 QA 통과
+- frontend ESLint/TypeScript 오류 0, 27 files/98 Vitest tests 통과
+- 14 Playwright tests: 4 viewport, light/dark axe, keyboard, mobile editor reflow, WebGL 4 scenes, 6 visual snapshots 통과
+- production source 183 files policy violation 0
+- production build 2,151 modules와 JS/CSS/raw asset 예산 통과
+- 실제 브라우저 landing/dashboard/editor 양 테마 시각 QA 통과
 
 운영 evidence 조건:
 
@@ -256,7 +254,7 @@
 | Phase 6 ✅ | 영향 분석 | request→role→document→contract→code→QA graph, accessible list, synchronized selection과 evidence path | SCR-07, REQ-IMPACT-*, 64 tests와 graph 없는 keyboard 동일 관계 탐색 통과 |
 | Phase 7 ✅ | 승인·검증 | semantic/raw diff, review/RBAC/self-approval guard, 수정 요청·반려, automated/manual evidence, audit, completion gate | SCR-08, REQ-REVIEW-*, REQ-VERIFY-01~02, 74 frontend·38 backend tests와 forbidden transition·RBAC·audit 통과 |
 | Phase 8 ✅ | Git 반영·Context 활성화 | approved proposal branch/commit/PR projection, revision lock, evidence commit SHA 연결, activation, Context version과 결과 화면 | SCR-09, REQ-VERIFY-003, frontend 81·backend 42 tests, sandbox Git E2E와 승인 없는 write/activation 차단 통과 |
-| Phase 9 ◐ | 인증·운영·Production 배포 | OIDC PKCE, server session·CSRF·RBAC, shared rate limit, structured log, paid production target, GitHub quality gate, read-only smoke, rollback/PITR runbook | 로컬 security·schema·build·browser gate 완료; 무료 초기 배포와 분리된 비용 승인·IdP/production sync·rollback/PITR drill 대기 |
+| Phase 9 ↗ | 운영·Production 배포 | rate limit, structured log, quality gate, read-only smoke, rollback/PITR runbook 유지; OIDC·session·identity RBAC route와 UI 연기 | 현재 login surface·auth API 0건; identity는 별도 Change Manifest 전까지 deferred |
 | Phase 10 ◐ | 품질 강화·Release Gate | 4개 breakpoint, accessibility/keyboard, loading/empty/error/permission/stale/offline/conflict, visual regression, 금지 카피·패턴, performance | 로컬 104 unit/integration·11 browser·policy/performance/build 통과; CI 재현·screen reader·field vitals evidence 대기 |
 
 ## 병행 원칙

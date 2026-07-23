@@ -13,7 +13,7 @@
 | QA-QUALITY-03 | 1280/1024/768/390px 가로 overflow와 핵심 content 접근 | Playwright | browser report |
 | QA-QUALITY-04 | skip link, navigation, 주요 action keyboard focus | Playwright + manual | trace/checklist |
 | QA-QUALITY-05 | route별 axe WCAG A/AA violation | Playwright axe | accessibility report |
-| QA-QUALITY-06 | dashboard light/dark visual regression | Playwright screenshot | approved baseline/diff |
+| QA-QUALITY-06 | landing/dashboard light/dark visual regression | Playwright screenshot | approved baseline/diff |
 | QA-QUALITY-07 | editor Porcelain/Dracula visual regression | Playwright screenshot | approved baseline/diff |
 | QA-QUALITY-08 | 금지 카피·gradient/glass/glow/radius | Node policy test | violation 0 log |
 | QA-QUALITY-09 | production gzip asset budget | Node budget test | asset report |
@@ -40,19 +40,23 @@
 | --- | --- |
 | `npm run lint` | JSX a11y strict 포함 오류·warning 0 |
 | `npm run typecheck` | strict TypeScript 오류 0 |
-| `npm test -- --run` | 30 files, 104 tests passed |
-| `npm run quality:policy` | production source 191 files, violation 0 |
-| `npm run build` | 2,159 modules transformed, production build 성공 |
-| `npm run quality:performance` | JS max gzip 167,560/190,000; JS total 389,024/430,000; CSS 40,865/52,000; raw total 1,400,724/1,600,000 bytes |
-| `npm run quality:browser` | 11 Playwright tests: 4 viewport, keyboard, editor, dark accessibility/reflow, 4 visual snapshots 통과 |
+| `npm test -- --run` | 27 files, 98 tests passed |
+| `npm run quality:policy` | production source 183 files, violation 0 |
+| `npm run build` | 2,151 modules transformed, production build 성공 |
+| `npm run quality:performance` | initial JS gzip 159,910/165,000; JS max gzip 176,496/190,000; JS total 568,107/590,000; CSS 41,144/52,000; raw total 2,094,488/2,200,000 bytes |
+| `npm run quality:browser` | 14 Playwright tests: 4 viewport, keyboard, editor, dark accessibility/reflow, WebGL 4 scene, 6 visual snapshots 통과 |
+| backend quality | Ruff·format·mypy 통과, pytest 54 passed·local PostgreSQL 1 skipped |
 
 실행 중 발견·수정한 회귀:
 
-- Astryx anchor color cascade가 primary CTA를 2.36:1로 낮추던 문제를 action foreground override로 수정했다.
+- lazy landing CSS에 기대던 dashboard CTA 스타일 소유권을 page slice로 이동했다.
+- Astryx 전경색 상속과 product inverse token 충돌을 text ownership span과 semantic foreground token으로 분리해 양 테마 axe 대비를 통과했다.
 - Dracula gutter line number가 3.9:1이던 문제를 `#a7a9b6`로 조정해 AA를 통과했다.
+- 로그인·avatar·logout을 제거하고 해당 부재를 browser/snapshot/OpenAPI 계약으로 고정했다.
+- seeded WebGL hero·burst·globe·stream 4개가 reduced-motion 정적 frame과 lifecycle gate를 유지하는지 확인했다.
 
 수동 확인:
 
-- 1280 dark dashboard, 390 dark editor를 실제 브라우저에서 시각 확인했다.
+- landing/dashboard/editor의 1280 light/dark 기준 이미지를 실제 렌더로 시각 확인했다.
 - 390 editor는 horizontal overflow 0이며 navigation, toolbar, CodeMirror, inspector 순서를 보존한다.
 - VoiceOver/NVDA, production field LCP/INP/CLS는 로컬에서 실행할 수 없어 운영 evidence 대기다. 이를 통과로 기록하지 않는다.

@@ -23,8 +23,8 @@
 
 - Render CLI `imugi` workspace validation: `valid: true`, 생성 예정 free resource 4개
 - Backend: Ruff·format·mypy 통과, 54 passed·1 local Postgres skip
-- Frontend: 104 unit/integration tests, policy 191 files·0 violations, production build·performance budget 통과
-- Browser: 11 Playwright accessibility·responsive·visual tests 통과
+- Frontend: 98 unit/integration tests, policy 183 files·0 violations, production build·performance budget 통과
+- Browser: 14 Playwright accessibility·responsive·WebGL·visual tests 통과
 - Ownership/Blueprint focused contracts: 4 passed
 - GitHub repository visibility: private
 

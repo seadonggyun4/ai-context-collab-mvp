@@ -152,11 +152,8 @@ async def test_openapi_exposes_versioned_document_workflow(client: AsyncClient) 
         "/api/v1/projects/{project_id}/changes/{change_id}/activation-workspace",
         "/api/v1/changes/{change_id}/git-publications",
         "/api/v1/changes/{change_id}/activations",
-        "/api/v1/auth/login",
-        "/api/v1/auth/callback",
-        "/api/v1/auth/me",
-        "/api/v1/auth/logout",
     }
+    assert all(not path.startswith("/api/v1/auth/") for path in schema["paths"])
     assert set(schema["paths"]["/api/v1/projects/{project_id}"].keys()) == {"get"}
     assert set(schema["paths"]["/api/v1/documents/{document_id}/drafts"].keys()) == {"post"}
     assert schema["info"]["version"] == "0.1.0"

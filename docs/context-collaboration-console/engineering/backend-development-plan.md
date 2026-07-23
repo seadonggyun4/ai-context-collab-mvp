@@ -39,7 +39,6 @@ Domain은 FastAPI, SQLAlchemy, Render를 import하지 않는다. API DTO와 pers
 ```text
 GET    /health/live
 GET    /health/ready
-GET    /api/v1/auth/login
 GET    /api/v1/auth/callback
 GET    /api/v1/auth/me
 POST   /api/v1/auth/logout
@@ -70,7 +69,7 @@ GET    /api/v1/audit-events
 | B3 ✅ | Change aggregate, transition, review/RBAC/audit | forbidden transition/permission tests |
 | B4 | Proposal/impact deterministic job, evidence | idempotent job/evidence tests |
 | B5 ✅ | Git branch/commit/PR projection adapter, activation gate, immutable ContextVersion | sandbox repository E2E와 승인 전 write 0건 |
-| B6 ◐ | OIDC, server session/CSRF, shared rate limit, observability, production smoke와 backup/runbook | 로컬 security/smoke 완료, IdP·Render·restore drill 대기 |
+| B6 ↗ | rate limit, observability, production smoke와 backup/runbook | OIDC·server session·identity RBAC는 CR-2026-017에 따라 route 비활성·후속 승인 대기 |
 
 ## 보안 규칙
 
@@ -79,8 +78,8 @@ GET    /api/v1/audit-events
 - CORS allowlist는 production frontend origin으로 제한한다.
 - path traversal, YAML unsafe tag, oversized payload, stored XSS를 차단한다.
 - mutation은 RBAC, idempotency, revision, audit를 통과해야 한다.
-- production actor와 role은 검증된 OIDC claim만 사용하고 browser에는 provider token을 저장하지 않는다.
-- OIDC flow/session/rate limit은 TTL을 가진 shared Key Value를 사용하며 장애 시 production API는 fail closed한다.
+- 현재 릴리스는 login/session route를 제공하지 않으며 preview actor는 workflow evidence를 위한 fixture 값이다.
+- 향후 OIDC를 다시 도입할 경우 검증된 claim만 신뢰하고 provider token을 browser에 저장하지 않는 기존 security 설계를 재검토한다.
 - Git mutation은 `GIT_WRITE_SANDBOX`에 명시된 repository만 쓰고 remote push나 main 직접 write를 수행하지 않는다.
 
 ## Phase 2 구현 세부

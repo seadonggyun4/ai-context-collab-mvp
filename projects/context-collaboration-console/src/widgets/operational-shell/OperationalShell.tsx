@@ -1,7 +1,6 @@
 import { type PropsWithChildren } from "react";
 import { NavLink } from "react-router-dom";
 
-import { useOptionalAuth } from "@entities/auth";
 import { ThemeSwitcher } from "@features/change-theme";
 import { routes } from "@shared/config";
 import { BrandMark } from "@shared/ui/brand-mark";
@@ -22,8 +21,6 @@ const navigation = [
 ] as const;
 
 export function OperationalShell({ children, contextVersion, projectId, projectName }: OperationalShellProps) {
-  const auth = useOptionalAuth();
-  const principal = auth?.state.status === "authenticated" ? auth.state.session.principal : null;
   const contextLabel = contextVersion.startsWith("context-v") ? contextVersion : `Context v${contextVersion}`;
   return (
     <div className="operational-shell">
@@ -38,12 +35,6 @@ export function OperationalShell({ children, contextVersion, projectId, projectN
         </div>
         <div className="operational-topbar__actions">
           <ThemeSwitcher />
-          <div className="user-session">
-            <span className="user-avatar" aria-label={principal === null ? "사용자 계정" : `${principal.displayName} · ${principal.role}`} title={principal?.displayName}>{principal?.displayName.slice(0, 1) ?? "-"}</span>
-            {principal !== null && auth !== null ? (
-              <button type="button" className="user-session__logout" onClick={() => void auth.logout()}>로그아웃</button>
-            ) : null}
-          </div>
         </div>
       </header>
 

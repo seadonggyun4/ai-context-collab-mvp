@@ -1,6 +1,6 @@
 # Production Operations Runbook
 
-> 이 runbook은 향후 유료 production profile 전용이다. 현재 활성 Render Blueprint는 결제 없는 초기 시연 profile이며 `engineering/render-deployment.md`를 따른다. 무료 배포 결과를 아래 production·PITR 완료 증거로 사용하지 않는다.
+> 이 runbook은 향후 유료 production profile 검토용 보관 문서다. `CR-2026-017` 이후 OIDC, session, identity RBAC 절차는 모두 비활성이며 현재 릴리스나 배포 gate에 적용하지 않는다. 현재 활성 Render Blueprint는 결제 없는 초기 시연 profile이며 `engineering/render-deployment.md`를 따른다. 아래 인증·PITR 절차는 별도 Change Manifest 승인 전까지 실행하지 않는다.
 
 ## 목적과 적용 범위
 

@@ -79,3 +79,27 @@ test("dark dashboard와 Dracula editor가 접근성·reflow를 유지한다", as
   await expect(page.locator(".code-editor")).toHaveAttribute("data-theme", "dark");
   await expectNoA11yViolations(page);
 });
+
+test("메인 motion과 semantic action token이 양 테마에서 일관된다", async ({ page }) => {
+  await page.setViewportSize(viewports[0]);
+  await page.addInitScript(() => localStorage.setItem("context-console.theme-preference.v1", "light"));
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: /변경의 이유부터.*검증 결과까지/ })).toBeVisible();
+  await expect(page.locator("canvas[data-motion-scene]")).toHaveCount(4);
+  await expect.poll(() => page.locator("canvas[data-webgl-status='ready']").count()).toBe(4);
+  await expect(page.getByText("로그인", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("로그아웃", { exact: true })).toHaveCount(0);
+
+  const primaryAction = page.getByRole("link", { name: "APC 프로젝트 열기" }).first();
+  await expect(primaryAction).toHaveCSS("background-color", "rgb(17, 94, 89)");
+  await expect(primaryAction.locator("span")).toHaveCSS("color", "rgb(255, 255, 255)");
+
+  await page.getByRole("combobox", { name: "화면 테마, 현재 라이트" }).selectOption("dark");
+  await expect(page.locator("html")).toHaveAttribute("data-resolved-theme", "dark");
+  await expect(primaryAction).toHaveCSS("background-color", "rgb(103, 199, 188)");
+  await expect(primaryAction.locator("span")).toHaveCSS("color", "rgb(8, 43, 40)");
+  await expect(page.locator(".operating-proof > p > span")).toHaveCSS("color", "rgb(8, 43, 40)");
+  await expect(page.locator(".closing-section h2 > span")).toHaveCSS("color", "rgb(16, 32, 29)");
+  await expect(page.locator(".closing-section > div:last-child p > span")).toHaveCSS("color", "rgb(67, 83, 79)");
+  await expectNoA11yViolations(page);
+});

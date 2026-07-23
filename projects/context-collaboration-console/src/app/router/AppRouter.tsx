@@ -3,11 +3,11 @@ import { Route, Routes } from "react-router-dom";
 
 import { ApplicationErrorBoundary } from "@app/router/ApplicationErrorBoundary";
 import { ChangeProposalPage } from "@pages/change-proposal";
-import { MainEntryPage } from "@pages/landing";
 import { NewChangeRequestPage } from "@pages/new-change-request";
 import { NotFoundPage } from "@pages/not-found";
 import { ProjectOverviewPage } from "@pages/project-overview";
 
+const MainEntryPage = lazy(() => import("@pages/landing").then((module) => ({ default: module.MainEntryPage })));
 const ContextBrowserPage = lazy(() => import("@pages/context-browser").then((module) => ({ default: module.ContextBrowserPage })));
 const DocumentDetailPage = lazy(() => import("@pages/document-detail").then((module) => ({ default: module.DocumentDetailPage })));
 const ImpactAnalysisPage = lazy(() => import("@pages/impact-analysis").then((module) => ({ default: module.ImpactAnalysisPage })));

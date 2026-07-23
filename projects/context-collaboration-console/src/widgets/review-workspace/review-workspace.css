@@ -49,7 +49,7 @@
 .review-decision label span { font-size: .7rem; font-weight: 740; }
 .review-decision textarea { width: 100%; resize: vertical; padding: 11px 12px; border: 1px solid var(--product-line-strong); border-radius: 3px; background: var(--product-surface); color: var(--product-ink); font: inherit; font-size: .78rem; line-height: 1.55; }
 .decision-helper { margin: -6px 0 0; color: var(--product-muted); font-size: .7rem; }
-.decision-submit, .review-transition button, .evidence-result button { min-height: 38px; padding: 0 14px; border: 1px solid var(--product-primary); border-radius: 3px; background: var(--product-primary); color: var(--product-action-foreground); font-size: .74rem; font-weight: 760; cursor: pointer; }
+.decision-submit, .review-transition button, .evidence-result button { min-height: 38px; padding: 0 14px; border: 1px solid var(--product-action-surface); border-radius: 3px; background: var(--product-action-surface); color: var(--product-action-foreground); font-size: .74rem; font-weight: 760; cursor: pointer; }
 .decision-submit:disabled, .review-transition button:disabled, .evidence-result button:disabled { border-color: var(--product-line); background: var(--product-surface-muted); color: var(--product-muted); cursor: not-allowed; }
 .review-command-error { position: relative; padding: 12px 42px 12px 13px; border-left: 3px solid var(--product-danger); background: color-mix(in srgb, var(--product-danger) 8%, var(--product-surface)); }
 .review-command-error strong { font-size: .75rem; }

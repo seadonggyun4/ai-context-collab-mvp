@@ -7,6 +7,8 @@
 | ADR-FE-001 | Feature-Sliced Design(FSD)을 frontend architecture로 사용 | 승인 |
 | ADR-FE-002 | Tailwind CSS를 기본 의존성에 추가하지 않음 | 승인 |
 | ADR-FE-003 | system/light/dark theme preference 제공 | 승인 |
+| ADR-FE-004 | Landing Three.js runtime을 lazy widget으로 격리 | 승인 |
+| ADR-FE-005 | Frontend login/session boundary를 현재 릴리스에서 제거 | 승인 |
 
 ## ADR-FE-001 — FSD
 
@@ -65,3 +67,20 @@
 4. semantic token을 light/dark variable set으로 확장한다.
 5. ThemeProvider와 ThemeSwitcher를 구현한다.
 6. browser/visual/accessibility regression을 통과한 뒤 후속 feature 개발을 시작한다.
+
+## ADR-FE-004 — Landing Three.js runtime
+
+Truthound reference의 WebGL/Three.js motion을 public landing에 적용하되 운영 route와 initial shell의 결합을 막는다.
+
+- `pages/landing`은 copy와 section composition만 소유한다.
+- Three.js renderer, scene lifecycle과 geometry는 `widgets/landing-motion`이 소유하며 public API로만 소비한다.
+- widget은 dynamic import로 별도 chunk가 되고 canvas는 접근성 트리에서 장식으로 처리한다.
+- `IntersectionObserver`, Page Visibility API, `prefers-reduced-motion`, capped DPR을 공통 lifecycle 계약으로 사용한다.
+- animation frame, observer, renderer, material, geometry는 unmount에서 모두 정리한다.
+- WebGL 미지원 시 같은 의미를 가진 HTML copy를 유지하고 빈 canvas 오류를 사용자에게 노출하지 않는다.
+
+## ADR-FE-005 — 인증 범위 연기
+
+현재 릴리스에는 login, session refresh, logout, 사용자 avatar와 identity 기반 route guard를 포함하지 않는다. `AppProviders`는 데이터 repository와 theme만 조합하며 frontend build-time auth flag를 사용하지 않는다.
+
+Review·verification·activation의 permission guard는 fixture actor를 입력받는 domain policy이므로 유지한다. 이는 로그인 완료 사용자의 권한을 주장하는 기능이 아니다. 실제 OIDC와 claim 기반 RBAC는 별도 Change Manifest에서 재도입한다.

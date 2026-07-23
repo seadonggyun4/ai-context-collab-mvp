@@ -26,11 +26,28 @@ const assets = await Promise.all(files.map(async (file) => {
     gzip: gzipSync(bytes, { level: 9 }).byteLength,
   };
 }));
+const assetsByFile = new Map(assets.map((asset) => [asset.file, asset]));
 const javascript = assets.filter(({ file }) => file.endsWith(".js"));
 const css = assets.filter(({ file }) => file.endsWith(".css"));
 const total = (items, field) => items.reduce((sum, item) => sum + item[field], 0);
 const largestJavaScript = javascript.toSorted((left, right) => right.gzip - left.gzip)[0];
+const manifest = JSON.parse(await readFile(path.join(distRoot, ".vite/manifest.json"), "utf8"));
+const entry = Object.entries(manifest).find(([, value]) => value.isEntry);
+if (entry === undefined) throw new Error("Vite manifest does not contain an entry chunk");
+const initialFiles = new Set();
+function collectInitial(key) {
+  const item = manifest[key];
+  if (item === undefined) throw new Error(`Vite manifest references an unknown chunk: ${key}`);
+  initialFiles.add(item.file);
+  for (const imported of item.imports ?? []) collectInitial(imported);
+}
+collectInitial(entry[0]);
+const initialJavascript = [...initialFiles]
+  .filter((file) => file.endsWith(".js"))
+  .map((file) => assetsByFile.get(file))
+  .filter((asset) => asset !== undefined);
 const checks = [
+  ["initial JavaScript total gzip", total(initialJavascript, "gzip"), budget.maxInitialJavaScriptTotalGzipBytes],
   ["largest JavaScript chunk gzip", largestJavaScript?.gzip ?? 0, budget.maxJavaScriptChunkGzipBytes],
   ["JavaScript total gzip", total(javascript, "gzip"), budget.maxJavaScriptTotalGzipBytes],
   ["CSS total gzip", total(css, "gzip"), budget.maxCssTotalGzipBytes],

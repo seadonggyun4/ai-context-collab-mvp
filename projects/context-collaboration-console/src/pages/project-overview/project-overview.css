@@ -7,7 +7,8 @@
   .overview-heading dl div { display: flex; gap: 7px; color: var(--product-muted); font-size: 10px; }
   .overview-heading dt { font-weight: 700; }
   .overview-heading dd { margin: 0; }
-  .overview-heading a.primary-action { color: #fff !important; }
+  .overview-heading a.primary-action { display: inline-flex; min-height: 48px; padding: 0 22px; align-items: center; justify-content: center; border: 1px solid var(--product-action-surface); border-radius: 4px; background: var(--product-action-surface); color: var(--product-action-foreground); font-size: 14px; font-weight: 720; }
+  .overview-heading a.primary-action > span { color: var(--product-action-foreground); }
 
   @media (max-width: 900px) {
     .overview-page { padding: 32px 24px 56px; }

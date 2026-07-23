@@ -38,7 +38,7 @@ export function ProjectOverviewPage() {
               <div><dt>마지막 검증</dt><dd>{project.lastVerifiedAt}</dd></div>
             </dl>
           </div>
-          <Link className="primary-action" to={routes.newChange(project.id)}>변경 요청 등록</Link>
+          <Link className="primary-action" to={routes.newChange(project.id)}><span>변경 요청 등록</span></Link>
         </header>
 
         <ProjectDashboard dashboard={dashboard} />

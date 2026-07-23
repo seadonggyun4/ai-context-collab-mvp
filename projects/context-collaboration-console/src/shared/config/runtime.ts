@@ -14,15 +14,7 @@ function readDataSource(value: string | undefined): DataSource {
   throw new Error(`Unsupported VITE_DATA_SOURCE: ${value}`);
 }
 
-function readBoolean(value: string | undefined, fallback: boolean): boolean {
-  if (value === undefined || value === "") return fallback;
-  if (value === "true") return true;
-  if (value === "false") return false;
-  throw new Error(`Unsupported boolean environment value: ${value}`);
-}
-
 export const runtimeConfig = Object.freeze({
   dataSource: readDataSource(envString("VITE_DATA_SOURCE")),
   apiBaseUrl: envString("VITE_API_BASE_URL") ?? "http://127.0.0.1:8000",
-  authRequired: readBoolean(envString("VITE_AUTH_REQUIRED"), false),
 });
