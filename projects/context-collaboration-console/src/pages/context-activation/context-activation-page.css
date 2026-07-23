@@ -1,2 +1,0 @@
-.context-activation-page { container: activation-page / inline-size; width: min(100%, 1480px); margin: 0 auto; padding: 36px 32px 84px; }
-@media (max-width: 640px) { .context-activation-page { padding: 26px 18px 68px; } }

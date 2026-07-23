@@ -1,8 +1,0 @@
-@layer product {
-  .data-state-page { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: var(--product-canvas); }
-  .data-state-page[data-state="permission"],
-  .data-state-page[data-state="conflict"] { border-top: 3px solid var(--product-warning); }
-  .data-state-page[data-state="error"] { border-top: 3px solid var(--product-danger); }
-  .data-state-page[data-state="offline"],
-  .data-state-page[data-state="stale"] { border-top: 3px solid var(--product-info); }
-}

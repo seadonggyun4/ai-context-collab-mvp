@@ -1,2 +1,0 @@
-.impact-analysis-page { container: impact-page / inline-size; width: min(100%, 1440px); margin: 0 auto; padding: 36px 32px 84px; }
-@media (max-width: 640px) { .impact-analysis-page { padding: 26px 18px 68px; } }

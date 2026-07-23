@@ -1,1 +1,0 @@
-"""Versioned resource routes."""
