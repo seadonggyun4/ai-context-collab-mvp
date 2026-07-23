@@ -1,0 +1,49 @@
+schema_version: 1
+document_metadata:
+  required:
+    - id
+    - title
+    - project_id
+    - document_type
+    - status
+    - version
+    - source_path
+    - approved_by
+    - effective_at
+  enums:
+    document_type:
+      - project_context
+      - active_context
+      - organization_standard
+      - planning
+      - publishing
+      - development
+      - qa
+      - change_manifest
+      - evidence
+      - impact_analysis
+    status:
+      - DRAFT
+      - ACTIVE
+      - DEPRECATED
+      - SUPERSEDED
+      - ARCHIVED
+relations:
+  allowed_types:
+    - governed_by
+    - derives_from
+    - impacts
+    - implements
+    - verifies
+    - supersedes
+    - evidences
+  required_fields:
+    - from_document_id
+    - to_document_id
+    - relation_type
+    - reason
+validation:
+  active_requires_approval: true
+  superseded_requires_replacement: true
+  source_path_must_be_repo_relative: true
+  unknown_relation_is_error: true

@@ -1,0 +1,81 @@
+policy_version: 2
+frontend_architecture:
+  methodology: feature_sliced_design
+  layers:
+    - app
+    - pages
+    - widgets
+    - features
+    - entities
+    - shared
+  dependency_direction: app_to_shared
+  slice_public_api_required: true
+styling:
+  utility_framework: none
+  component_system: astryx
+  reset_owner: astryx
+  ownership_order:
+    - astryx_official_api
+    - product_ui_wrapper
+    - semantic_token_colocated_css
+    - app_global_styles
+  tailwind_default_dependency: false
+  tailwind_requires_separate_adr: true
+  arbitrary_visual_values: false
+theme:
+  preferences:
+    - system
+    - light
+    - dark
+  default_preference: system
+  resolved_modes:
+    - light
+    - dark
+  persist_preference: true
+  follow_os_when_system: true
+  prevent_visible_first_paint_flash: true
+document_editor:
+  engine: codemirror_6
+  formats:
+    - markdown
+    - yaml
+  dark_theme: dracula
+  light_theme: porcelain
+  preserve_state_on_theme_change: true
+  accessible_diagnostic_list: true
+  optimistic_revision_required: true
+brand:
+  primary: "#115E59"
+  primary_interactive: "#0F766E"
+  canvas: "#F7F8FA"
+  surface: "#FFFFFF"
+  ink: "#17202A"
+shape:
+  control_radius_px: 6
+  surface_radius_px: 8
+  maximum_radius_px: 12
+density:
+  table_row_default_px: 44
+  table_row_comfortable_px: 52
+forbidden_visual_patterns:
+  - neon_blue_or_purple_glow
+  - decorative_3d_object
+  - glassmorphism
+  - card_for_every_section
+  - border_around_every_layout
+  - decorative_pill_eyebrow
+  - oversized_flashing_cta
+forbidden_surface_copy:
+  - MVP
+  - 프로토타입
+  - 데모
+  - AI-powered
+  - Next-generation
+  - Revolutionary
+  - 차세대
+  - 혁신적인
+requirements:
+  color_only_status: false
+  keyboard_focus_visible: true
+  graph_requires_list_fallback: true
+  destructive_action_requires_confirmation: true

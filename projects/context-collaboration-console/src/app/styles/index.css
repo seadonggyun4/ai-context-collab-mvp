@@ -1,0 +1,142 @@
+@layer reset, astryx, product;
+
+@import "@astryxdesign/core/reset.css" layer(reset);
+@import "@astryxdesign/core/astryx.css" layer(astryx);
+@import "@astryxdesign/theme-neutral/theme.css" layer(astryx);
+
+@layer product {
+  :root {
+    --product-primary: #115e59;
+    --product-primary-strong: #0b4945;
+    --product-primary-soft: #dff3ef;
+    --product-on-primary: #ffffff;
+    --product-primary-contrast: var(--product-on-primary);
+    --product-action-foreground: #ffffff;
+    --product-ink: #16211f;
+    --product-muted: #5f6b68;
+    --product-line: #dce3e1;
+    --product-line-strong: #cbd5d2;
+    --product-canvas: #f5f7f6;
+    --product-surface: #ffffff;
+    --product-surface-subtle: #f0f4f2;
+    --product-surface-muted: #e2e8e6;
+    --product-warning: #9a5b13;
+    --product-success: #207a4b;
+    --product-danger: #b42318;
+    --product-danger-soft: #fff0ee;
+    --product-info: #365e91;
+    --product-shadow: rgba(18, 58, 55, .13);
+    --product-dark-surface: #123a37;
+    --product-dark-on-surface: #ffffff;
+    --product-dark-muted: #c2d2cf;
+    --product-on-dark-accent: #8ed1c9;
+    --content-width: 1200px;
+    color-scheme: light;
+    font-family: Inter, Pretendard, "Noto Sans KR", system-ui, sans-serif;
+    color: var(--product-ink);
+    background: var(--product-surface);
+  }
+
+  :root[data-resolved-theme="dark"] {
+    --product-primary: #67c9be;
+    --product-primary-strong: #8edbd2;
+    --product-primary-soft: #183c38;
+    --product-on-primary: #082b28;
+    --product-action-foreground: #082b28;
+    --product-ink: #f1f5f4;
+    --product-muted: #a9b5b2;
+    --product-line: #34413e;
+    --product-line-strong: #465551;
+    --product-canvas: #101514;
+    --product-surface: #171e1d;
+    --product-surface-subtle: #1e2826;
+    --product-surface-muted: #293532;
+    --product-warning: #e7ad63;
+    --product-success: #72d39b;
+    --product-danger: #ff8d86;
+    --product-danger-soft: #3b211f;
+    --product-info: #91b8e8;
+    --product-shadow: rgba(0, 0, 0, .32);
+    --product-dark-surface: #0b2a27;
+    --product-dark-on-surface: #f1f5f4;
+    --product-dark-muted: #b9c7c4;
+    --product-on-dark-accent: #8ed1c9;
+    color-scheme: dark;
+  }
+
+  :root[data-resolved-theme="dark"] :is(
+    .primary-link,
+    .primary-action,
+    .operating-proof,
+    .proposal-primary-action,
+    .auth-boundary a,
+    .auth-boundary button,
+    .editor-toolbar button.is-primary,
+    .conflict-actions button.is-primary,
+    .decision-submit,
+    .review-transition button,
+    .evidence-result button,
+    .publication-action,
+    .activate-section button,
+    .result-primary,
+    .review-activation-next a
+  ) { color: #082b28 !important; }
+
+  * { box-sizing: border-box; }
+  html, body, #root { width: 100%; min-height: 100%; }
+  body { margin: 0; min-width: 320px; background: var(--product-surface); color: var(--product-ink); }
+  #root { min-height: 100vh; }
+  button, a, select { font: inherit; }
+  button { color: inherit; }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 3px solid var(--product-primary); outline-offset: 3px; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    top: 8px;
+    left: 8px;
+    padding: 10px 14px;
+    border: 2px solid var(--product-primary);
+    background: var(--product-surface);
+    color: var(--product-primary-strong);
+    font-weight: 750;
+    transform: translateY(-150%);
+  }
+
+  .skip-link:focus { transform: translateY(0); }
+
+  .route-loading {
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    background: var(--product-canvas);
+    color: var(--product-muted);
+    font-size: .86rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :focus-visible { outline: 3px solid CanvasText; }
+  }
+}

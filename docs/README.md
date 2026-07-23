@@ -19,3 +19,4 @@ docs/
 현재 프로젝트 문서 엔진:
 
 - `apc-monitoring-mvp/`: APC 모니터링 MVP의 Context, 역할 산출물, 변경 이력과 검증 증거
+- `context-collaboration-console/`: 프로젝트 Context·변경 영향·승인·검증을 관리하는 협업 콘솔

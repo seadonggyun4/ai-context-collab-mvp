@@ -1,0 +1,1 @@
+export { ChangeProposalPage } from "./ChangeProposalPage";

@@ -1,0 +1,7 @@
+@layer product {
+  .brand-mark { display: inline-flex; align-items: center; gap: 10px; font-weight: 750; letter-spacing: -.03em; }
+  .brand-mark__symbol { display: grid; grid-template-columns: repeat(2, 6px); gap: 3px; transform: rotate(45deg); }
+  .brand-mark__symbol span { width: 6px; height: 6px; background: var(--product-primary); }
+  .brand-mark__symbol span:nth-child(2), .brand-mark__symbol span:nth-child(3) { opacity: .48; }
+  .brand-link { display: inline-flex; }
+}

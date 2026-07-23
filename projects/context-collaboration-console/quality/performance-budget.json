@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "maxJavaScriptChunkGzipBytes": 190000,
+  "maxJavaScriptTotalGzipBytes": 430000,
+  "maxCssTotalGzipBytes": 52000,
+  "maxAssetTotalBytes": 1600000
+}

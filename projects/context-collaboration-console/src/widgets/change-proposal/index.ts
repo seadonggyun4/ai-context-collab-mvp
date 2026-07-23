@@ -1,0 +1,1 @@
+export { ChangeProposal } from "./ChangeProposal";

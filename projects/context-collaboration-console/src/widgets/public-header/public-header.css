@@ -1,0 +1,16 @@
+@layer product {
+  .public-header { height: 72px; border-bottom: 1px solid var(--product-line); background: var(--product-surface); position: relative; z-index: 2; }
+  .public-header__inner { max-width: var(--content-width); height: 100%; margin: auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+  .public-header__nav, .public-header__actions { display: flex; align-items: center; gap: 28px; }
+  .public-header__nav { font-size: 14px; color: var(--product-muted); }
+  .text-link { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 650; }
+  .text-link--strong { color: var(--product-primary-strong); }
+
+  @media (max-width: 900px) { .public-header__nav { display: none; } }
+  @media (max-width: 600px) {
+    .public-header__inner { padding: 0 18px; }
+    .public-header .text-link { font-size: 0; }
+    .public-header .text-link span { font-size: 18px; }
+    .public-header__actions { gap: 10px; }
+  }
+}

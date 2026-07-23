@@ -1,0 +1,45 @@
+policy_version: 2
+roles:
+  viewer:
+    can:
+      - project.read
+      - change.read
+      - context.read
+      - evidence.read
+  contributor:
+    inherits: viewer
+    can:
+      - change.create
+      - change.edit_own_draft
+      - review.request_changes
+      - manual_check.submit
+      - git.publish_approved_change
+  reviewer:
+    inherits: contributor
+    can:
+      - review.approve_low_medium_risk
+      - review.reject
+      - evidence.accept_manual
+  admin:
+    inherits: reviewer
+    can:
+      - review.approve_high_risk
+      - context.activate
+      - policy.manage
+      - project.manage
+constraints:
+  self_approval:
+    allowed: false
+    exception: demo_fixture_only
+  high_risk_approval:
+    required_role: admin
+  activation:
+    required_role: admin
+    requires_state: READY_TO_ACTIVATE
+  git_publication:
+    required_role: contributor
+    requires_state: READY_TO_ACTIVATE
+    requires_current_approval: true
+    requires_revision_lock: true
+  rejected_change:
+    mutable: false
