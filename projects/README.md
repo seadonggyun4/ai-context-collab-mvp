@@ -16,5 +16,3 @@ projects/
 현재 실행 프로젝트:
 
 - `apc-monitoring-mvp/`: APC 데이터 운영 모니터링 React/FastAPI MVP
-- `context-collaboration-console/`: Context와 변경 요청을 관리하는 React 운영 콘솔 구현 진입점
-- `context-collaboration-console-api/`: Context 문서·프로젝트를 제공하는 FastAPI/PostgreSQL backend

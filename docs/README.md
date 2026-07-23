@@ -19,5 +19,3 @@ docs/
 현재 프로젝트 문서 엔진:
 
 - `apc-monitoring-mvp/`: APC 모니터링 MVP의 Context, 역할 산출물, 변경 이력과 검증 증거
-
-CTX Flow 제품 코드와 문서 엔진은 `/Users/dgseo/Desktop/ctxflow` 독립 저장소로 분리되었다.
