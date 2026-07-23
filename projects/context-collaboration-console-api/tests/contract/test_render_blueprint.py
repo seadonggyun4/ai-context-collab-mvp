@@ -65,8 +65,10 @@ def test_preview_resources_expire_and_use_nonproduction_overrides() -> None:
     blueprint = load_blueprint()
     assert blueprint["previews"] == {"generation": "automatic", "expireAfterDays": 3}
     services = {service["name"]: service for service in blueprint["services"]}  # type: ignore[index]
-    assert services["context-console-api"]["previews"] == {"generation": "automatic", "plan": "free"}
-    assert services["context-console-security"]["previewPlan"] == "free"
+    databases = {database["name"]: database for database in blueprint["databases"]}  # type: ignore[index]
+    assert services["context-console-api"]["previews"] == {"generation": "automatic", "plan": "starter"}
+    assert services["context-console-security"]["previewPlan"] == "starter"
+    assert databases["context-console-db"]["previewPlan"] == "basic-256mb"
     assert (
         next(item for item in services["context-console-api"]["envVars"] if item["key"] == "APP_ENV")["previewValue"]
         == "preview"
