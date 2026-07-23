@@ -62,6 +62,7 @@
 | `change-management/active/CR-2026-015_free-render-and-ownership.md` | `ACTIVE` | zero-cost 초기 배포와 console-only 권리 경계 변경 |
 | `roles/development/feature/11_free-render-ownership/01_free_render_ownership.md` | `ACTIVE` | free Blueprint·라이선스 다층 구현 계약 |
 | `roles/qa/feature/11_free-render-ownership/01_free_render_ownership_qa.md` | `ACTIVE` | 비용·runtime·소유권 scope 회귀 검증 |
+| `change-management/active/CR-2026-016_render-fixture-hotfix.md` | `ACTIVE` | 초기 Render 시연 data source 계약 복구 |
 
 ## 불변 규칙
 

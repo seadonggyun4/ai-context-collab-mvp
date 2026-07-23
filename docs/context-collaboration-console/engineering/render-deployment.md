@@ -2,7 +2,7 @@
 
 ## 활성 배포 프로필: zero-cost initial demonstration
 
-repository root의 `render.yaml`은 `imugi` workspace에 결제 수단 없이 초기 시연 환경을 생성하는 단일 Blueprint다. 이 프로필은 제품 기능과 web→API→DB 연결을 검증하기 위한 비운영 환경이며 Phase 9의 유료 production topology를 대체하거나 완료로 판정하지 않는다.
+repository root의 `render.yaml`은 `imugi` workspace에 결제 수단 없이 초기 시연 환경을 생성하는 단일 Blueprint다. 이 프로필은 deterministic fixture로 제품 전체 흐름을 시연하고 API→DB 기반을 별도 smoke하는 비운영 환경이며 Phase 9의 유료 production topology나 완전한 HTTP integration을 대체하지 않는다.
 
 ```mermaid
 flowchart LR
@@ -32,7 +32,7 @@ API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `root
 
 ## 초기 시연 런타임
 
-- frontend는 `VITE_DATA_SOURCE=http`, `VITE_AUTH_REQUIRED=false`로 API에 연결한다.
+- frontend는 `VITE_DATA_SOURCE=fixture`, `VITE_AUTH_REQUIRED=false`로 시연 흐름을 결정론적으로 제공한다. Dashboard·analysis·impact HTTP endpoint가 모두 준비되기 전에는 `http`로 전환하지 않는다.
 - API는 `APP_ENV=preview`를 사용하므로 조직 OIDC secret 없이 비운영 actor adapter를 사용한다.
 - 무료 Web Service는 `preDeployCommand`를 지원하지 않는다. 단일 free instance의 `startCommand`에서 `alembic upgrade head` → idempotent APC demo seed → Uvicorn 순서로 시작한다.
 - seed는 `APP_ENV=preview` 무료 시연 profile에만 포함한다. 향후 production start/pre-deploy에는 seed를 포함하지 않는다.
@@ -41,7 +41,7 @@ API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `root
 | Key | 초기 시연 계약 | Secret |
 | --- | --- | --- |
 | `VITE_API_BASE_URL` | Render API HTTPS origin | 아니오 |
-| `VITE_DATA_SOURCE`, `VITE_AUTH_REQUIRED` | `http`, `false` | 아니오 |
+| `VITE_DATA_SOURCE`, `VITE_AUTH_REQUIRED` | `fixture`, `false` | 아니오 |
 | `APP_ENV`, `LOG_LEVEL` | `preview`, `INFO` | 아니오 |
 | `DATABASE_URL` | Blueprint free Postgres connection reference | 예, 자동 연결 |
 | `SECURITY_STORE_URL` | Blueprint free Key Value connection reference | 예, 자동 연결 |
@@ -53,7 +53,7 @@ API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `root
 2. JSON Schema validation of `render.yaml`
 3. `imugi` workspace validation: `render blueprints validate render.yaml -w tea-d9gnd7jtqb8s73drjjlg -o json`
 4. Blueprint 비용 검토: paid plan·preview·disk·paid pre-deploy 0건
-5. initial deploy 후 migration, `/health/live`, `/health/ready`, CORS, SPA rewrite smoke
+5. initial deploy 후 SPA fixture 렌더링, migration, `/health/live`, `/health/ready`, Project/Document read API, CORS, SPA rewrite smoke
 6. 무료 DB 만료일과 시연 데이터 폐기 계획 기록
 
 Schema 검증은 문법·필드 형태만 확인한다. Render CLI workspace 검증은 현재 workspace의 플랜·권한·필드 조합을 확인하며 실제 자원은 생성하지 않는다. Blueprint 생성은 별도의 외부 상태 변경 단계다.
