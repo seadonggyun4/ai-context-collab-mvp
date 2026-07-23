@@ -34,8 +34,8 @@ API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `root
 
 - frontend는 `VITE_DATA_SOURCE=http`, `VITE_AUTH_REQUIRED=false`로 API에 연결한다.
 - API는 `APP_ENV=preview`를 사용하므로 조직 OIDC secret 없이 비운영 actor adapter를 사용한다.
-- 무료 Web Service는 `preDeployCommand`를 지원하지 않는다. 단일 free instance의 `startCommand`에서 `alembic upgrade head`를 실행한 뒤 Uvicorn을 시작한다.
-- production seed는 실행하지 않는다. 필요한 시연 데이터는 명시적인 fixture/초기화 절차로만 준비한다.
+- 무료 Web Service는 `preDeployCommand`를 지원하지 않는다. 단일 free instance의 `startCommand`에서 `alembic upgrade head` → idempotent APC demo seed → Uvicorn 순서로 시작한다.
+- seed는 `APP_ENV=preview` 무료 시연 profile에만 포함한다. 향후 production start/pre-deploy에는 seed를 포함하지 않는다.
 - Web Service filesystem은 ephemeral이다. 문서 수정의 remote push는 수행하지 않으며 DB/KV 상태는 무료 플랜 제약을 따른다.
 
 | Key | 초기 시연 계약 | Secret |

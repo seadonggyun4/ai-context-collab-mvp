@@ -5,7 +5,7 @@
 | QA-FREE-01 | Render JSON Schema | `render.yaml` schema 통과 |
 | QA-FREE-02 | Render `imugi` workspace validate | 결제 정보 없이 `valid: true` |
 | QA-FREE-03 | paid token scan | paid plan·previewPlan·paid pre-deploy 0건 |
-| QA-FREE-04 | runtime contract | web auth off, API preview, start migration, free DB/KV |
+| QA-FREE-04 | runtime contract | web auth off, API preview, migration→idempotent seed→server, free DB/KV |
 | QA-IP-01 | package notice | frontend/API LICENSE·NOTICE에 동일 권리자 |
 | QA-IP-02 | metadata | npm `UNLICENSED`, Python LICENSE file reference |
 | QA-IP-03 | path scope | console code/docs만 포함, APC·공용 규칙·제3자 제외 |

@@ -10,7 +10,7 @@
 
 1. Render Static Site, Web Service, PostgreSQL, Key Value는 모두 무료 플랜만 사용한다.
 2. 유료 Preview Environment와 Service Preview를 비활성화한다.
-3. 무료 Web Service에서 지원하지 않는 `preDeployCommand` 대신 단일 인스턴스 start command 앞에서 Alembic migration을 실행한다.
+3. 무료 Web Service에서 지원하지 않는 `preDeployCommand` 대신 단일 인스턴스 start command에서 Alembic migration과 idempotent 시연 seed를 실행한다.
 4. 초기 배포는 `APP_ENV=preview`, frontend auth off로 동작하며 OIDC secret을 요구하지 않는다.
 5. 무료 PostgreSQL 30일 만료, Key Value 비영속, API idle spin-down을 명시적으로 수용한다.
 6. 패키지별 `LICENSE`·`NOTICE`, package metadata, entrypoint SPDX, 웹 메타·푸터, 문서·YAML 정책을 함께 적용한다.
@@ -18,6 +18,7 @@
 ## 수용 기준
 
 - `render.yaml`에 `starter`, `basic-256mb`, `previewPlan`, paid pre-deploy가 없다.
+- 첫 API 기동 후 APC 프로젝트와 대표 변경 workflow가 중복 없이 조회된다.
 - Render CLI의 `imugi` workspace validation이 결제 정보 없이 `valid: true`를 반환한다.
 - 프론트엔드·백엔드의 라이선스 파일과 metadata가 서동균 및 독점 라이선스를 가리킨다.
 - 적용·제외 경계를 자동 계약 테스트가 검증한다.

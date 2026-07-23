@@ -35,7 +35,9 @@ def test_blueprint_defines_zero_cost_initial_deployment() -> None:
     assert api["plan"] == "free"
     assert "preDeployCommand" not in api
     assert "alembic upgrade head" in api["startCommand"]
-    assert "app.scripts.seed" not in api["startCommand"]
+    assert "app.scripts.seed" in api["startCommand"]
+    assert api["startCommand"].index("alembic upgrade head") < api["startCommand"].index("app.scripts.seed")
+    assert api["startCommand"].index("app.scripts.seed") < api["startCommand"].index("uvicorn")
     assert "docs/apc-monitoring-mvp/**" in api["buildFilter"]["paths"]
     assert api["autoDeployTrigger"] == "checksPass"
 
