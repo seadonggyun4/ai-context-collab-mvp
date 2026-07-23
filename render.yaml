@@ -62,7 +62,7 @@ services:
     autoDeployTrigger: checksPass
     previews:
       generation: automatic
-      plan: free
+      plan: starter
     buildFilter:
       paths:
         - projects/context-collaboration-console-api/**
@@ -114,7 +114,7 @@ services:
   - type: keyvalue
     name: context-console-security
     plan: starter
-    previewPlan: free
+    previewPlan: starter
     region: singapore
     maxmemoryPolicy: noeviction
     persistenceMode: journal-snapshot
@@ -125,6 +125,6 @@ databases:
     databaseName: context_console
     user: context_console
     plan: basic-256mb
-    previewPlan: free
+    previewPlan: basic-256mb
     region: singapore
     ipAllowList: []

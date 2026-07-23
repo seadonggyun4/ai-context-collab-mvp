@@ -17,9 +17,9 @@ flowchart LR
 | Resource | Production | Preview | 책임 |
 | --- | --- | --- | --- |
 | `context-console-web` | Static Site | fixture data, auth off | SPA, CSP/security headers, API origin |
-| `context-console-api` | Starter Web Service | free, `APP_ENV=preview` | API, OIDC/session/RBAC, migration, Git/docs |
-| `context-console-db` | paid Postgres `basic-256mb` | free | application/audit state, production PITR |
-| `context-console-security` | persistent Starter Key Value | free | session, one-time flow, shared rate-limit |
+| `context-console-api` | Starter Web Service | Starter, `APP_ENV=preview` | API, OIDC/session/RBAC, migration, Git/docs |
+| `context-console-db` | paid Postgres `basic-256mb` | `basic-256mb` | application/audit state, production PITR |
+| `context-console-security` | persistent Starter Key Value | Starter | session, one-time flow, shared rate-limit |
 
 API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `rootDir`로 유지하고 명령에서 API directory로 이동한다. frontend는 자체 project root에서 build한다. React Router는 `/* → /index.html`, API health check는 `/health/ready`를 사용한다.
 
@@ -27,6 +27,7 @@ API는 `docs/`를 Git object로 읽기 때문에 repository root를 Render `root
 
 - production auto deploy는 `checksPass`; 실패한 CI commit은 배포하지 않는다.
 - preview는 3일 후 만료하고 frontend fixture/auth off로 운영 계정과 production 데이터 의존을 제거한다.
+- Render는 `free`를 `previewPlan`으로 허용하지 않는다. API·Postgres·Key Value preview는 production과 같은 최소 유효 plan을 사용하므로 pull request preview 생성 시 별도 비용이 발생할 수 있다.
 - production migration은 pre-deploy `alembic upgrade head`; production seed는 실행하지 않는다.
 - frontend build-time 변수는 public으로 간주한다. secret은 API의 `sync: false` 변수에만 둔다.
 - web CSP의 `connect-src`와 `form-action`, API CORS와 `FRONTEND_ORIGINS`, IdP callback은 exact production URL로 함께 변경한다.
